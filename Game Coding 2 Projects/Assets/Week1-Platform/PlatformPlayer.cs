@@ -41,6 +41,7 @@ public class PlatformPlayer : MonoBehaviour
 
 
         //get player input (WASD)
+        //x is left and right z is forward and back y is up and down
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
