@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class PlatformPlayer : MonoBehaviour
 {
+    //for physics based interactions rigidbody is better (fall guys)
+
+    //but for precise platforming movement character controoller is better
+    //(mario, celeste type games) smoother and easier to fine tune
+
+
+
     private Rigidbody rb;
     public float moveSpeed = 5f;
     public float jumpForce = 7f;
@@ -28,6 +35,7 @@ public class PlatformPlayer : MonoBehaviour
     void FixedUpdate()
     {
         //later in the lesson
+        //raycasting is more reliable than oncollisionenter and exit
         isGrounded = Physics.Raycast(groundCheck.position, Vector3.down, groundDistance, groundLayer);
         Debug.DrawRay(groundCheck.position, Vector3.down * groundDistance, Color.red);
 
