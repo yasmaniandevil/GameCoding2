@@ -22,7 +22,15 @@ public class PlatformPlayer : MonoBehaviour
     //empty gameobject at players feet
     public Transform groundCheck;
     //raycast distance for ground detection
-    private float groundDistance = 0.3f; 
+    private float groundDistance = 0.3f;
+
+    public Transform respawnPos;
+
+    Vector3 playerMovementInput;
+    Vector3 moveVector;
+
+    private bool isSprinting;
+    public float sprintSpeed = 10f;
 
 
     // Start is called before the first frame update
@@ -45,12 +53,27 @@ public class PlatformPlayer : MonoBehaviour
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
-        //we could also write it this way
-        //Vector3 playerMovement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        //termary operator shorthand of writing an if-else statement
+        float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
+        //float currentSpeed;
+        //if(isSprinting)
+        //current speed = sprint speed
+        //else
+        //currentSpeed = moveSpeed
 
         //Apply Movement
         Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed;
         rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+
+        Respawn();
+
+        //we could also write it this way
+        /*playerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+       
+        moveVector = playerMovementInput * moveSpeed;
+        rb.velocity = new Vector3(moveVector.x, rb.velocity.y, moveVector.z);*/
+
+        
 
     }
 
@@ -61,6 +84,18 @@ public class PlatformPlayer : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
+
+        if(Input.GetKey(KeyCode.LeftShift) && isGrounded)
+        {
+            isSprinting = true;
+            Debug.Log("sprinting");
+        }
+        else
+        {
+            isSprinting = false;
+        }
+
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -87,6 +122,15 @@ public class PlatformPlayer : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawLine(groundCheck.position, 
                 groundCheck.position + Vector3.down * groundDistance);
+        }
+    }
+
+    void Respawn()
+    {
+        if(transform.position.y < -3)
+        {
+            transform.position = respawnPos.transform.position;
+            Debug.Log("respawned player");
         }
     }
 }
