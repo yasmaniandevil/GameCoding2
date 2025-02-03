@@ -1362,7 +1362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 1
+  jumpForce: 10
   isGrounded: 0
   groundLayer:
     serializedVersion: 2

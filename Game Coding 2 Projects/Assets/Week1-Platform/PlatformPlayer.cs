@@ -26,9 +26,6 @@ public class PlatformPlayer : MonoBehaviour
 
     public Transform respawnPos;
 
-    Vector3 playerMovementInput;
-    Vector3 moveVector;
-
     private bool isSprinting;
     public float sprintSpeed = 10f;
 
