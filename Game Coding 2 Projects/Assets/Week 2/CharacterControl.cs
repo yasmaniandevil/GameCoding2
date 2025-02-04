@@ -28,7 +28,7 @@ public class CharacterControl : MonoBehaviour
 
     public bool isGrounded;
     public bool isSprinting = false;
-    public bool groundPound = false;
+   
     
 
 
@@ -47,7 +47,7 @@ public class CharacterControl : MonoBehaviour
         //different way to write input.getaxis
         //get player input 
         //moves along x left and right and z forward and back
-        PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
         
         //MovePlayer();
 
@@ -60,6 +60,12 @@ public class CharacterControl : MonoBehaviour
         {
             isSprinting = true;
             //Debug.Log("Sprinting true");
+        }
+
+
+        if(Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            isSprinting = false;
         }
 
         if(Input.GetKeyDown(KeyCode.Q) && canDash && PlayerMovementInput != Vector3.zero)

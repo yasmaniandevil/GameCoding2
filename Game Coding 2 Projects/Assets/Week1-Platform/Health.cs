@@ -1,38 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    public TextMeshProUGUI healthText;
+    
     public int lives = 3;
+    public int currentHealth;
+
+    public Image[] heartImages;
+    
 
     public Transform player;
     // Start is called before the first frame update
     void Start()
     {
-        UpdateHealthText();
+        currentHealth = lives;
+        UpdateHeart();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(player.transform.position.y <= -2)
-        {
-            lives--;
-            UpdateHealthText();
-        }
+      
+    }
 
-        if(lives <= 0)
+    private void UpdateHeart()
+    {
+        for(int i = 0; i < heartImages.Length; i++)
         {
-            lives = 0;
-            Debug.Log("Game Over");
+            if(i < currentHealth)
+            {
+                heartImages[i].gameObject.SetActive(false);
+            }
         }
     }
 
-    private void UpdateHealthText()
+    public void LoseHeart()
     {
-        healthText.text = "Health: " + lives.ToString();
+        currentHealth = Mathf.Max(currentHealth - 1, 0);
+        UpdateHeart();
+
+        if(currentHealth <= 0)
+        {
+            Debug.Log("player has died");
+        }
     }
 }

@@ -15,22 +15,20 @@ public class PlayerTransform : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void SwapToSphere()
     {
+        //first check if assigned
         if(spherePrefab == null)
         {
             Debug.Log("sphere is not in inspector");
             return;
         }
 
-        GameObject newPlayer = Instantiate(spherePrefab, transform.position, Quaternion.identity);
+        //instattae the prefab same position and rotation
+        GameObject newPlayer = Instantiate(spherePrefab, transform.position, transform.rotation);
 
+        //transfer rigidbody velocity from current player to new player
+        //helps keep momentum consisten btwn frames
         Rigidbody newRb = newPlayer.GetComponent<Rigidbody>(); 
         if(newRb != null && rb != null)
         {

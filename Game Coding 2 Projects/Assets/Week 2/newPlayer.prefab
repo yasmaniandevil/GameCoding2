@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1460974515857226456}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 230430600055523072}
   - component: {fileID: 1576975666321269856}
   - component: {fileID: 8943101848231696315}
-  - component: {fileID: -6872871171076877345}
+  - component: {fileID: 8233294686489106963}
   m_Layer: 0
   m_Name: newPlayer
   m_TagString: Player
@@ -61,7 +61,7 @@ Transform:
   m_GameObject: {fileID: 3970119708766041537}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.569, y: 1, z: 0}
+  m_LocalPosition: {x: 1.569, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -164,9 +164,9 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &-6872871171076877345
+--- !u!114 &8233294686489106963
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,12 +179,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 9
+  jumpForce: 15
   isGrounded: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   groundCheck: {fileID: 9056449311907325995}
-  groundDistance: 1
+  groundDistance: 0.3
   respawnPos: {fileID: 0}
   groundPoundForce: 20

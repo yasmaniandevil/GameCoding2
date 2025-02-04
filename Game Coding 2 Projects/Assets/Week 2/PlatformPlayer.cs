@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlatformPlayer : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class PlatformPlayer : MonoBehaviour
 
     //ground pound
     public float groundPoundForce = 20f;
+
+    
 
 
 
@@ -81,6 +84,10 @@ public class PlatformPlayer : MonoBehaviour
             GroundPound();
         }
 
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
         
     }
 
@@ -116,6 +123,7 @@ public class PlatformPlayer : MonoBehaviour
         if(transform.position.y < -3 && !isGrounded)
         {
             transform.position = respawnPos.transform.position;
+
             //Debug.Log("respawned player");
         }
     }
