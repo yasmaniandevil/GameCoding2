@@ -28,8 +28,8 @@ public class CharacterControl : MonoBehaviour
 
     public bool isGrounded;
     public bool isSprinting = false;
-
-    public ParticleSystem party;
+    public bool groundPound = false;
+    
 
 
     // Start is called before the first frame update
@@ -38,6 +38,7 @@ public class CharacterControl : MonoBehaviour
         Time.timeScale = 1.0f;
 
         controller = GetComponent<CharacterController>();
+         
     }
 
     // Update is called once per frame
@@ -126,6 +127,8 @@ public class CharacterControl : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        float startTime = Time.time;
+
         Debug.Log("Dash Started");
         isDashing = true;
         canDash = false;
@@ -138,7 +141,7 @@ public class CharacterControl : MonoBehaviour
         //time.time total since game started returns the elapsed time
         //time.deltatime time between frames, frame duration
         //returns the time in seconds since the last frame
-        float startTime = Time.time;
+        //float startTime = Time.time;
 
         //comparing time that has elapsed since start of game with
         while(Time.time < startTime + maxDashDuration)
@@ -159,4 +162,10 @@ public class CharacterControl : MonoBehaviour
         Debug.Log("dash cool down over");
 
     }
+
+    
+
+
+
+
 }

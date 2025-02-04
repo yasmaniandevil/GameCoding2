@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlatformPlayer : MonoBehaviour
@@ -22,12 +23,13 @@ public class PlatformPlayer : MonoBehaviour
     //empty gameobject at players feet
     public Transform groundCheck;
     //raycast distance for ground detection
-    private float groundDistance = 0.3f;
+    public float groundDistance = 0.3f;
 
-    public Transform respawnPos;
+    public GameObject respawnPos;
 
-    private bool isSprinting;
-    public float sprintSpeed = 10f;
+    //ground pound
+    public float groundPoundForce = 20f;
+
 
 
     // Start is called before the first frame update
@@ -48,19 +50,11 @@ public class PlatformPlayer : MonoBehaviour
         //get player input (WASD)
         //x is left and right z is forward and back y is up and down
         float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
-
-        //termary operator shorthand of writing an if-else statement
-        float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
-        //float currentSpeed;
-        //if(isSprinting)
-        //current speed = sprint speed
-        //else
-        //currentSpeed = moveSpeed
+        //float moveZ = Input.GetAxis("Vertical");
 
         //Apply Movement
-        Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed;
-        rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+        Vector3 move = new Vector3(moveX, 0, 0) * moveSpeed;
+        rb.velocity = new Vector3(move.x, rb.velocity.y, 0);
 
         Respawn();
 
@@ -82,14 +76,9 @@ public class PlatformPlayer : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
-        if(Input.GetKey(KeyCode.LeftShift) && isGrounded)
+        if(Input.GetMouseButtonDown(0) && !isGrounded)
         {
-            isSprinting = true;
-            Debug.Log("sprinting");
-        }
-        else
-        {
-            isSprinting = false;
+            GroundPound();
         }
 
         
@@ -122,12 +111,31 @@ public class PlatformPlayer : MonoBehaviour
         }
     }
 
-    void Respawn()
+    public void Respawn()
     {
-        if(transform.position.y < -3)
+        if(transform.position.y < -3 && !isGrounded)
         {
             transform.position = respawnPos.transform.position;
-            Debug.Log("respawned player");
+            //Debug.Log("respawned player");
         }
+    }
+
+    private void GroundPound()
+    {
+        //you can add an animation here
+        ClearForces();
+        rb.velocity = new Vector3(rb.velocity.x, -groundPoundForce, rb.velocity.z);
+    }
+
+    private void ClearForces()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+    }
+
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        
     }
 }
