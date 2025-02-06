@@ -21,12 +21,10 @@ public class DissapearPlatform : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (hit.gameObject.CompareTag("Player"))
         {
-
-            Debug.Log("Enter");
             playerOnPlatform = true;
         }
     }
@@ -47,5 +45,13 @@ public class DissapearPlatform : MonoBehaviour
         playerOnPlatform = false;
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("detetced player");
+        }
+    }
+
+
 }
