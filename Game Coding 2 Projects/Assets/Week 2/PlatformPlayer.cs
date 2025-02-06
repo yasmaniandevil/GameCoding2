@@ -33,8 +33,9 @@ public class PlatformPlayer : MonoBehaviour
     //ground pound
     public float groundPoundForce = 20f;
 
-    
 
+    //public DissapearPlatform disPlatform;
+    //public List<DissapearPlatform> platformList = new List<DissapearPlatform>();
 
 
     // Start is called before the first frame update
@@ -126,7 +127,8 @@ public class PlatformPlayer : MonoBehaviour
         {
             transform.position = respawnPos.transform.position;
 
-            //Debug.Log("respawned player");
+            //disPlatform.ResetPlatform();
+            Debug.Log("reset platform");
         }
     }
 

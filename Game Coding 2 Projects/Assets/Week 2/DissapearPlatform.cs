@@ -21,10 +21,11 @@ public class DissapearPlatform : MonoBehaviour
         }
     }
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (hit.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
+
             playerOnPlatform = true;
         }
     }

@@ -73,7 +73,12 @@ public class roomCam : MonoBehaviour
                 currentRoomCenterX += camWidth;
             }
 
-            Vector3 targetCamPos = new Vector3(currentRoomCenterX, transform.position.y, transform.position.z);
+            //for the y axis smoothly follow player y pos
+            float targetY = playerScript.transform.position.y + offset.y;
+            //z pos remains as the cameras current z
+            //float targetZ = transform.position.z;
+
+            Vector3 targetCamPos = new Vector3(currentRoomCenterX, targetY, transform.position.z);
 
             transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing);
         }
