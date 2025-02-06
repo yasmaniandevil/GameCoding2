@@ -18,6 +18,8 @@ public class PlatformPlayer : MonoBehaviour
     public float jumpForce = 7f;
     public bool isGrounded;
 
+    
+
     //later in the lesson
     //layer for ground detection
     public LayerMask groundLayer;

@@ -25,6 +25,7 @@ public class DissapearPlatform : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+
             Debug.Log("Enter");
             playerOnPlatform = true;
         }
@@ -45,4 +46,6 @@ public class DissapearPlatform : MonoBehaviour
         disappearTime = 2f;
         playerOnPlatform = false;
     }
+
+    
 }

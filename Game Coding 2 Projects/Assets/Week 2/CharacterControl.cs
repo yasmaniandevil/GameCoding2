@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CharacterControl : MonoBehaviour
 {
@@ -28,8 +29,13 @@ public class CharacterControl : MonoBehaviour
 
     public bool isGrounded;
     public bool isSprinting = false;
-   
-    
+
+    //groundpound var
+    public float groundPoundForce;
+    public bool isGroundPounding = false;
+
+    public GameObject respawnPos;
+
 
 
     // Start is called before the first frame update
@@ -75,11 +81,33 @@ public class CharacterControl : MonoBehaviour
             Debug.DrawRay(transform.position, Vector3.forward, Color.blue);
         }
 
+        if(isGrounded )
+        {
+            if (isGroundPounding)
+            {
+                isGroundPounding = false;
+                Debug.Log("ground pounding is false");
+            }
+        }
+
+        if(Input.GetMouseButtonDown(0) && !isGrounded && !isGroundPounding)
+        {
+            GroundPound();
+            Debug.Log("called ground pound");
+        }
+
         if (!isDashing)
         {
             //remove the other function
             MovePlayer();
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        Respawn();
 
     }
 
@@ -104,9 +132,19 @@ public class CharacterControl : MonoBehaviour
         }
         else
         {
-            //apply gravity when player is in the air
-            velocity.y -= gravity * -2f * Time.deltaTime;
+            if (isGroundPounding)
+            {
+                velocity.y = -groundPoundForce;
+            }
+            else
+            {
+                //otherwise apply gravity normally when player is in air
+                velocity.y -= gravity * -2f * Time.deltaTime;
+            }
         }
+
+        
+            
 
        
         //sprinting
@@ -169,7 +207,29 @@ public class CharacterControl : MonoBehaviour
 
     }
 
-    
+    private void GroundPound()
+    {
+        isGroundPounding = true;
+        //immediately force vertical velocity downward
+        velocity.y = -groundPoundForce;
+        //trigger animation?
+        Debug.Log("Ground Pound Initiated");
+
+    }
+
+    public void Respawn()
+    {
+        if (transform.position.y < -3 && !isGrounded)
+        {
+            transform.position = respawnPos.transform.position;
+
+            DissapearPlatform disPlat = GetComponent<DissapearPlatform>();
+            disPlat.ResetPlatform();
+            Debug.Log("reset platform");
+        }
+    }
+
+
 
 
 
