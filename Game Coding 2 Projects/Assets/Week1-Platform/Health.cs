@@ -9,44 +9,59 @@ public class Health : MonoBehaviour
 {
     
     public int lives = 3;
-    public int currentHealth;
+    public TextMeshProUGUI livesText;
 
-    public Image[] heartImages;
-    
+    private int startingLives;
 
-    public Transform player;
+    public void OnEnable()
+    {
+        //subscribing to the event
+        //this script listens for the event
+        //when onplayerloselife is triggered the loselife function runs in the health script
+        GameManager.OnPlayerLoseLife += LoseLife;
+    }
+
+    private void OnDisable()
+    {
+        //unsubscribing
+        GameManager.OnPlayerLoseLife -= LoseLife;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = lives;
-        UpdateHeart();
+        startingLives = lives;
+        
+        UpdateHealthText();
     }
 
     // Update is called once per frame
-    void Update()
+    private void LoseLife()
     {
-      
-    }
+        //lives -= 1;
+        lives--;
+        Debug.Log("Player has lost a life");
+        UpdateHealthText();
 
-    private void UpdateHeart()
-    {
-        for(int i = 0; i < heartImages.Length; i++)
+        if(lives <= 0)
         {
-            if(i < currentHealth)
-            {
-                heartImages[i].gameObject.SetActive(false);
-            }
+            lives = 0;
+            Debug.Log("Game over!");
+            
+            //add whatever logic you would like
         }
     }
 
-    public void LoseHeart()
+    private void UpdateHealthText()
     {
-        currentHealth = Mathf.Max(currentHealth - 1, 0);
-        UpdateHeart();
-
-        if(currentHealth <= 0)
-        {
-            Debug.Log("player has died");
-        }
+        livesText.text = "Health: " + lives.ToString();
     }
+
+    public void ResetHealth()
+    {
+        lives = startingLives;
+        UpdateHealthText();
+
+    }
+
+
 }

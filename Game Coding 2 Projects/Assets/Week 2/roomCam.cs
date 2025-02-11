@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System;
 
 public class roomCam : MonoBehaviour
 {
@@ -23,23 +25,33 @@ public class roomCam : MonoBehaviour
     //used to position camera relative to the player
     public Vector3 offset;
 
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     // Start is called before the first frame update
     void Start()
     {
         //initalize the current room center using the cameras starting x position
-        currentRoomCenterX = transform.position.x;
+        //currentRoomCenterX = transform.position.x;
 
         //original version
         //offset = transform.position - player.position;
 
-        FindPlayer();
+        //FindPlayer();
 
-        if(playerScript != null)
+        /*if(playerScript != null)
         {
             //set inital offset
             offset = transform.position - playerScript.transform.position;
-        }
+        }*/
 
+        InitalizeCamera();
         
     }
 
@@ -86,12 +98,34 @@ public class roomCam : MonoBehaviour
     }
 
     void FindPlayer()
-    {
+    { 
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         if(playerObject != null)
         {
             playerScript = playerObject.GetComponent<PlatformPlayer>();
             offset = transform.position - playerScript.transform.position;
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        InitalizeCamera();
+    }
+
+    private void InitalizeCamera()
+    {
+
+        FindPlayer();
+
+        if (playerScript != null)
+        {
+            //reset offset based on the new player pos
+            offset = transform.position - playerScript.transform.position;
+
+            currentRoomCenterX = playerScript.transform.position.x;
+
+            //immediately position the camera to avoid hitter at scene load
+            transform.position = playerScript.transform.position + offset;
         }
     }
 }

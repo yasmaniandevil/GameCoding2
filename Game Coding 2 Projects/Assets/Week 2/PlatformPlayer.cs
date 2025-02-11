@@ -28,10 +28,12 @@ public class PlatformPlayer : MonoBehaviour
     //raycast distance for ground detection
     public float groundDistance = 0.3f;
 
-    public GameObject respawnPos;
+   
 
     //ground pound
     public float groundPoundForce = 20f;
+
+    private float fallThreashold = -3;
 
 
     //public DissapearPlatform disPlatform;
@@ -62,7 +64,7 @@ public class PlatformPlayer : MonoBehaviour
         Vector3 move = new Vector3(moveX, 0, 0) * moveSpeed;
         rb.velocity = new Vector3(move.x, rb.velocity.y, 0);
 
-        Respawn();
+        //Respawn();
 
         //we could also write it this way
         /*playerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
@@ -87,48 +89,21 @@ public class PlatformPlayer : MonoBehaviour
             GroundPound();
         }
 
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
+        
+
+        CheckIfFallen();
         
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            //isGrounded = true;
-        }
-    }
+  
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            //isGrounded = false; 
-        }
-    }
 
-    private void OnDrawGizmos()
+    public void CheckIfFallen()
     {
-        //draw a debug line to visualize the ground check raycast
-        if(groundCheck != null)
+        if(transform.position.y < fallThreashold && !isGrounded)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(groundCheck.position, 
-                groundCheck.position + Vector3.down * groundDistance);
-        }
-    }
-
-    public void Respawn()
-    {
-        if(transform.position.y < -3 && !isGrounded)
-        {
-            transform.position = respawnPos.transform.position;
-
-            //disPlatform.ResetPlatform();
-            Debug.Log("reset platform");
+            //notify game mananger to handle respawn and life deduction
+            GameManager.Instance.PlayerFell(gameObject);
         }
     }
 
@@ -146,8 +121,4 @@ public class PlatformPlayer : MonoBehaviour
     }
 
     
-    private void OnTriggerEnter(Collider other)
-    {
-        
-    }
 }

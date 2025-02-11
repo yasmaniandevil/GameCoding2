@@ -17,7 +17,8 @@ public class Checkpoint : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerScriptRB.respawnPos = this.gameObject;
+            //playerScriptRB.respawnPos = this.gameObject;
+            GameManager.Instance.UpdateRespawnPoint(this.gameObject);
         }
     }
 }

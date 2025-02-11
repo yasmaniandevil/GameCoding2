@@ -27,6 +27,11 @@ public class PlayerTransform : MonoBehaviour
         //instattae the prefab same position and rotation
         GameObject newPlayer = Instantiate(spherePrefab, transform.position, transform.rotation);
 
+        //for later in lesson make sphere child of gamemanager
+        newPlayer.transform.SetParent(GameManager.Instance.transform);
+
+        GameManager.Instance.UpdatePlayerReference(newPlayer);
+
         //transfer rigidbody velocity from current player to new player
         //helps keep momentum consisten btwn frames
         Rigidbody newRb = newPlayer.GetComponent<Rigidbody>(); 
