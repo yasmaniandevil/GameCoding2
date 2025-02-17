@@ -581,7 +581,7 @@ GameObject:
   - component: {fileID: 418779303}
   m_Layer: 3
   m_Name: Platform (1)
-  m_TagString: Untagged
+  m_TagString: ice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -679,7 +679,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 418779298}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acb83d57c7a2f5d43b1af2783c900a99, type: 3}
   m_Name: 
@@ -1126,7 +1126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &734190464
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1863,7 +1863,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1974461305}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e411bbb23fe08c145a1b8d40606315af, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2156,6 +2156,10 @@ PrefabInstance:
       propertyPath: respawnPos
       value: 
       objectReference: {fileID: 1961026650}
+    - target: {fileID: 9094434211363287776, guid: 3fb620fdb3902664e8576e3f86d96548, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 9b7b21c743e54db429a06038de103b68, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
