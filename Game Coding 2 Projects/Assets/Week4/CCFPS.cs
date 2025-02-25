@@ -22,7 +22,7 @@ public class CCFPS : MonoBehaviour
     private float yRotation = 0;
     private float xRotation = 0;
 
-    public GameObject weaponPrefab;
+    //public GameObject weaponPrefab;
 
 
     // Start is called before the first frame update
@@ -38,52 +38,57 @@ public class CCFPS : MonoBehaviour
     void Update()
     {
         
-        float inputMoveX = Input.GetAxis("Horizontal");
-        float inputMoveZ = Input.GetAxis("Vertical");
-        Vector3 move;
-
-        move = (transform.forward * inputMoveZ) + (transform.right * inputMoveX);
-
-        playerMovement = move * speed * Time.deltaTime;
-        cc.Move(playerMovement);
+        MovePlayer();
 
         CameraLook();
 
         if (Input.GetKey(KeyCode.E))
         {
-            Instantiate(weaponPrefab);
+            //Instantiate(weaponPrefab);
         }
 
         
     }
 
-    /*void MovePlayer()
+    void MovePlayer()
     {
         isGrounded = cc.isGrounded;
 
-        if (isGrounded)
+        //ensures player stays grounded
+        if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -1;
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                velocity.y = jumpForce;
-            }
-        }
-        else
-        {
-            velocity.y -= gravity * -2f * Time.deltaTime;
+            velocity.y = -2f;
+            
         }
 
-        //cc.Move(playerMovement * speed * Time.deltaTime);
-        
-        //cc.Move(velocity * Time.deltaTime);
-    }*/
+        float inputMoveX = Input.GetAxis("Horizontal");
+        float inputMoveZ = Input.GetAxis("Vertical");
+        Vector3 move;
+
+        //Debug.Log("Input X: " + inputMoveX + ", Input Z: " + inputMoveZ);
+
+        move = (transform.forward * inputMoveZ) + (transform.right * inputMoveX);
+
+        cc.Move(move * speed * Time.deltaTime);
+
+        //handle jumping
+        if(isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            velocity.y = jumpForce;
+        }
+
+        //apply gravity
+        velocity.y += gravity * Time.deltaTime;
+        cc.Move(velocity * Time.deltaTime);
+    }
 
     private void CameraLook()
     {
         //get and assign mouse inputs
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
+
 
         //rotation around the y axis (look left and right)
         //when the mouse moves horizontally (x)
