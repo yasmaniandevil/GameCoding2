@@ -9,6 +9,7 @@ TagManager:
   - PlayerCC
   - defaultRespawn
   - ice
+  - Enemy
   layers:
   - Default
   - TransparentFX

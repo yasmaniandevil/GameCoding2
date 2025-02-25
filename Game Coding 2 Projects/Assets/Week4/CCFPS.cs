@@ -65,7 +65,7 @@ public class CCFPS : MonoBehaviour
         float inputMoveZ = Input.GetAxis("Vertical");
         Vector3 move;
 
-        //Debug.Log("Input X: " + inputMoveX + ", Input Z: " + inputMoveZ);
+        Debug.Log("Input X: " + inputMoveX + ", Input Z: " + inputMoveZ);
 
         move = (transform.forward * inputMoveZ) + (transform.right * inputMoveX);
 

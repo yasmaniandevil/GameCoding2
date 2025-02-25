@@ -18,7 +18,8 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        //add active in hierarchy later we need it so it doesnt just shoot before we pick it up
+        if(this.gameObject.activeInHierarchy && Input.GetMouseButtonDown(0))
         {
             FireWeapon();
         }
