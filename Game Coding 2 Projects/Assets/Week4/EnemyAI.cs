@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour
     public float attackCoolDown = 2f;
 
     float lastAttackTime;
+    int collisionCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -62,7 +63,7 @@ public class EnemyAI : MonoBehaviour
             case EnemyState.Chase:
                 ChaseBehavior();
                 if(distanceToPlayer <= attackRange) ChangeState(EnemyState.Attack);
-                else if(distanceToPlayer > attackCoolDown) ChangeState(EnemyState.Patrol);
+                else if(distanceToPlayer > detectionRange) ChangeState(EnemyState.Patrol);
                 break;
 
                 //attacks player if player moves away switches back to chase
@@ -115,7 +116,7 @@ public class EnemyAI : MonoBehaviour
     void ChaseBehavior()
     {
         agent.SetDestination(player.position);
-        Debug.Log("chase called");
+        //Debug.Log("chase called");
     }
 
     //if player within attack range enemy attacks
@@ -125,8 +126,26 @@ public class EnemyAI : MonoBehaviour
         if(Time.time >= lastAttackTime + attackCoolDown)
         {
             lastAttackTime = Time.time;
-            Debug.Log("Enemy attacked player");
+            //Debug.Log("Enemy attacked player");
             //logic to reduce players health call from game manager
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+
+            //why couldnt i declare collisioncount locally?
+            collisionCount++;
+            Debug.Log("collision counts: " + collisionCount);
+            Debug.Log("Enemy hit");
+
+            if(collisionCount == 3)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
