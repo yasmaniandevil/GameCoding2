@@ -123,7 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 6090867778097904042, guid: 65ac4f6f76f5480408cc090b41c5518d, type: 3}
   bulletSpawnPos: {fileID: 6942110000118683412}
-  bulletVelocity: 30
+  bulletVelocity: 10
   bulletPrefabLifeTime: 10
 --- !u!1 &2900389845757808136
 GameObject:

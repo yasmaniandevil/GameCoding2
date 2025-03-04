@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.IO;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -18,10 +19,19 @@ public class EnemyAI : MonoBehaviour
     public Transform[] patrolPoints;
     private int currentPatrolIndex;
 
-    //AI settings
-    public float detectionRange = 10f;
+    //AI settings CHANGE THIS TO BELOW
+    /*public float detectionRange = 10f;
     public float attackRange = 1.5f;
-    public float attackCoolDown = 2f;
+    public float attackCoolDown = 2f;*/
+
+    //enemy stats loaded from json
+    public string enemyType; // Name of the enemy in the JSON
+    private int health;
+    private float speed;
+    private float detectionRange;
+    private float attackRange;
+    private float attackCooldown;
+
 
     float lastAttackTime;
     int collisionCount = 0;
@@ -30,10 +40,18 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        //load enemy data from JSON
+        LoadEnemyData(enemyType);
+
+        //apply loaded stats
+        agent.speed = speed;
+
         currentState = EnemyState.Patrol; //start with patrolling
         MoveToNextPatrolPoint();
         
     }
+
 
     // Update is called once per frame
     void Update()
@@ -123,7 +141,7 @@ public class EnemyAI : MonoBehaviour
     //uses cooldown to prevent spamming attacks
     void AttackBehavior()
     {
-        if(Time.time >= lastAttackTime + attackCoolDown)
+        if(Time.time >= lastAttackTime + attackCooldown)
         {
             lastAttackTime = Time.time;
             //Debug.Log("Enemy attacked player");
@@ -150,8 +168,33 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    //ranged attack
-    //distance > attackRange fire projectiles
-    //stealth AI enemy ignores player if they crouch behind cover
+    private void LoadEnemyData(string enemyName)
+    {
+        string path = Application.dataPath + "/Data/enemyData.json";
+        if(File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            EnemyDataBase enemyDB = JsonUtility.FromJson<EnemyDataBase>(json);
+
+            foreach(EnemyD enemy in enemyDB.enemiesList)
+            {
+                if(enemy.name == enemyName)
+                {
+                    health = enemy.health;
+                    speed = enemy.speed;
+                    detectionRange = enemy.detectionRange;
+                    attackRange = enemy.attackRange;
+                    attackCooldown = enemy.attackCooldown;
+                    Debug.Log($"Loaded enemy: {enemy.name}");
+                    return;
+                }
+            }
+
+        }
+        else
+        {
+            Debug.Log("enemy json file not found");
+        }
+    }
 
 }
