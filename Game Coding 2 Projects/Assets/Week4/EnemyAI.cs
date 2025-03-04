@@ -145,6 +145,7 @@ public class EnemyAI : MonoBehaviour
             if(collisionCount == 3)
             {
                 Destroy(gameObject);
+                FPSGameManager.Instance.Score++;
             }
         }
     }
