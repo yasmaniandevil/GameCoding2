@@ -170,16 +170,26 @@ public class EnemyAI : MonoBehaviour
 
     private void LoadEnemyData(string enemyName)
     {
+        //path to json file
         string path = Application.dataPath + "/Data/enemyData.json";
-        if(File.Exists(path))
+        if(File.Exists(path)) //check if file exists
         {
-            string json = File.ReadAllText(path);
+            //read json file as text and store as a string
+            string json = File.ReadAllText(path); 
+            //convert json to c# objects
+            //stores result
             EnemyDataBase enemyDB = JsonUtility.FromJson<EnemyDataBase>(json);
 
+            //find the correct enemy in json
+            //loops through all enemies
             foreach(EnemyD enemy in enemyDB.enemiesList)
             {
-                if(enemy.name == enemyName)
+                Debug.Log($"Checking enemy: {enemy.name}");
+
+                //find the enemy that marches the requested name
+                if (enemy.name == enemyName)
                 {
+                    Debug.Log($"Enemy {enemy.name} found! Assigning stats...");
                     health = enemy.health;
                     speed = enemy.speed;
                     detectionRange = enemy.detectionRange;
