@@ -31,10 +31,14 @@ public class EnemyAI : MonoBehaviour
     private float detectionRange;
     private float attackRange;
     private float attackCooldown;
+    public float attackDamage;
 
 
     float lastAttackTime;
     int collisionCount = 0;
+
+    FPSHEALTH fpshealth;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +53,8 @@ public class EnemyAI : MonoBehaviour
 
         currentState = EnemyState.Patrol; //start with patrolling
         MoveToNextPatrolPoint();
+
+        fpshealth = GameObject.FindGameObjectWithTag("Player").GetComponent<FPSHEALTH>();
         
     }
 
@@ -145,7 +151,8 @@ public class EnemyAI : MonoBehaviour
         {
             lastAttackTime = Time.time;
             //Debug.Log("Enemy attacked player");
-            //logic to reduce players health call from game manager
+
+            fpshealth.ChangeHealth(-attackDamage);
         }
     }
 
@@ -195,6 +202,7 @@ public class EnemyAI : MonoBehaviour
                     detectionRange = enemy.detectionRange;
                     attackRange = enemy.attackRange;
                     attackCooldown = enemy.attackCooldown;
+                    attackDamage = enemy.attackDamage;
                     Debug.Log($"Loaded enemy: {enemy.name}");
                     return;
                 }

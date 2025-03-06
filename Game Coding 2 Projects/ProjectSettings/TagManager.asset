@@ -11,6 +11,7 @@ TagManager:
   - ice
   - Enemy
   - Bullet
+  - HealthPickup
   layers:
   - Default
   - TransparentFX

@@ -7,7 +7,7 @@ using UnityEngine;
 //this script is just data and isnt attached to anything
 //json needs a simple class
 
-//without this JsonUtility.FromJson won’t work because Unity won’t recognize them
+//without this JsonUtility.FromJson won?t work because Unity won?t recognize them
 [System.Serializable] //tells unity how to store and load data
 //allows the class to be saved and loaded
 public class EnemyD //change to enemy stats for class
@@ -20,6 +20,7 @@ public class EnemyD //change to enemy stats for class
     public float detectionRange;
     public float attackRange;
     public float attackCooldown;
+    public float attackDamage;
 }
 
 [System.Serializable]

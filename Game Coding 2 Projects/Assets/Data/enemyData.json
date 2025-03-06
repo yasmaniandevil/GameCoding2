@@ -6,7 +6,8 @@
 			"speed": 3.5,
 			"detectionRange": 10,
 			"attackRange": 1.5,
-			"attackCooldown": 2.0
+			"attackCooldown": 2.0,
+			"attackDamage": 5
 		},
 		{
 			"name": "Ogre",
@@ -14,7 +15,8 @@
 			"speed": 2.0,
 			"detectionRange": 15,
 			"attackRange": 2.5,
-			"attackCooldown": 3.5
+			"attackCooldown": 3.5,
+			"attackDamage": 50
 
 		},
 		{
@@ -23,7 +25,8 @@
 			"speed": 2.5,
 			"detectionRange": 30,
 			"attackRange": 20,
-			"attackCooldown": 5.0
+			"attackCooldown": 5.0,
+			"attackDamage": 20
 		}
 	]
 }

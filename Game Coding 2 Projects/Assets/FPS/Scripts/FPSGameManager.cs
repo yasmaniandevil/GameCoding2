@@ -30,6 +30,9 @@ public class FPSGameManager : MonoBehaviour
     //list to store high scores
     public List<int> highScoreList = new List<int>();
 
+    public TextMeshProUGUI healthText;
+    FPSHEALTH playerHealth;
+
     //property to safely update score and log it when it changes
     //we use get and set instead of public int score bc 
     //prevents modification of score from outside the class
@@ -72,7 +75,14 @@ public class FPSGameManager : MonoBehaviour
         PATH_HIGH_SCORE = Application.dataPath + DIR_DATA + FILE_HIGH_SCORE;
         Debug.Log("high score file path: " + PATH_HIGH_SCORE);
 
-       
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<FPSHEALTH>();
+        playerHealth.onHealthChanged += UpdateHealthText;
+        UpdateHealthText(playerHealth.maxHealth, playerHealth.maxHealth);
+    }
+
+    private void OnDestroy()
+    {
+        playerHealth.onHealthChanged -= UpdateHealthText;
     }
 
     // Update is called once per frame
@@ -188,5 +198,10 @@ public class FPSGameManager : MonoBehaviour
         //write high score to the file
         File.WriteAllText(PATH_HIGH_SCORE, highScoreText);
         Debug.Log("high scores written");
+    }
+
+    public void UpdateHealthText(float oldhealth, float newHealth)
+    {
+        healthText.text = "Health: " + newHealth;
     }
 }
