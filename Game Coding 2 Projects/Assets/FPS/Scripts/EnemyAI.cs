@@ -30,7 +30,7 @@ public class EnemyAI : MonoBehaviour
     private float speed;
     private float detectionRange;
     private float attackRange;
-    private float attackCooldown;
+    public float attackCooldown;
     public float attackDamage;
 
 
@@ -55,6 +55,15 @@ public class EnemyAI : MonoBehaviour
         MoveToNextPatrolPoint();
 
         fpshealth = GameObject.FindGameObjectWithTag("Player").GetComponent<FPSHEALTH>();
+
+        /*if(player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player")?.transform;
+            Debug.Log("found player");
+            
+        }*/
+
+        agent.autoBraking = false;
         
     }
 
@@ -62,6 +71,8 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log($"Enemy State: {currentState} | Distance to Player: {Vector3.Distance(transform.position, player.position)} | Speed: {agent.speed} | Has Path: {agent.hasPath}");
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         //switch statement is like multiple choice descion maker in programming, instead of a bunch if else statements
         //checks a variable and decides what code to run based off of its value
@@ -139,7 +150,11 @@ public class EnemyAI : MonoBehaviour
     //when player is in range enemy follows them
     void ChaseBehavior()
     {
-        agent.SetDestination(player.position);
+        if(!agent.hasPath || agent.remainingDistance < 0.5f)
+        {
+            agent.SetDestination(player.position);
+        }
+        
         //Debug.Log("chase called");
     }
 
@@ -154,6 +169,7 @@ public class EnemyAI : MonoBehaviour
 
             fpshealth.ChangeHealth(-attackDamage);
         }
+        
     }
 
     private void OnCollisionEnter(Collision collision)

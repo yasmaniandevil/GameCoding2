@@ -150,6 +150,7 @@ MonoBehaviour:
   - {fileID: 5962009566680097514, guid: 3bf05b70a409f01419f2290995227ea1, type: 3}
   - {fileID: 5962009566680097514, guid: 3bf05b70a409f01419f2290995227ea1, type: 3}
   enemyType: Grunt
+  attackDamage: 0
 --- !u!54 &7083559536105701779
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -176,4 +177,4 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1

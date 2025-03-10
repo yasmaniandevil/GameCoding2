@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3800346145105583508}
   - component: {fileID: 1358155676892983122}
   m_Layer: 0
-  m_Name: OgreEnemy
+  m_Name: SniperEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177,5 +177,5 @@ MonoBehaviour:
   - {fileID: 5962009566680097514, guid: 3bf05b70a409f01419f2290995227ea1, type: 3}
   - {fileID: 6239519320994681232, guid: b7241fc9faa15394b890a39da740023f, type: 3}
   - {fileID: 7450321593985898383, guid: fb9508ecd45d63b4e8a3fb2979de93dd, type: 3}
-  enemyType: Ogre
+  enemyType: Sniper
   attackDamage: 0
