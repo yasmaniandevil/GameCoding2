@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.IO;
+using UnityEngine.Rendering;
 
 public class EnemyAI : MonoBehaviour
 {
     //defines diff states and switches between them
-    public enum EnemyState { Idle, Patrol, Chase, Attack}
+    public enum EnemyState { Idle, Patrol, Chase, Attack, Death}
     private EnemyState currentState;
 
     //references
@@ -61,14 +62,14 @@ public class EnemyAI : MonoBehaviour
         if(player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
-            if(player != null)
+            /*if(player != null)
             {
                 //Debug.Log("player found in scene");
             }
             else
             {
                 //Debug.Log("no found player");
-            }
+            }*/
             
             
         }
@@ -118,10 +119,12 @@ public class EnemyAI : MonoBehaviour
                 {
                     Debug.Log("Player out of range switching to chase");
                     ChangeState(EnemyState.Chase);
-
                 }
-
                 break;
+
+            case EnemyState.Death:
+                break;
+
         }
     }
 
@@ -138,6 +141,8 @@ public class EnemyAI : MonoBehaviour
 
     void PatrolBehavior()
     {
+        if (!agent.enabled || !agent.isOnNavMesh) return;
+
         //enemy follows fath to target (patrol point)
         //it waits until it reaches patrol point
         //once it reaches the point it moves to next location
@@ -146,10 +151,12 @@ public class EnemyAI : MonoBehaviour
         //if false means path has been fully calculated and enemy is actually moving towards target
         //ensures enemy only switches patrol points after reaching the target
         //if enmy is close enough to patrol point, .5 it moves to next one
-        if(!agent.pathPending && agent.remainingDistance < .5f && agent.enabled && agent.isOnNavMesh)
+        if(!agent.pathPending && agent.remainingDistance < .5f)
         {
             MoveToNextPatrolPoint();
         }
+
+
     }
     private void MoveToNextPatrolPoint()
     {
@@ -167,10 +174,10 @@ public class EnemyAI : MonoBehaviour
     void ChaseBehavior()
     {
         //syd needs the if statement everyone else just needs {}
-        if(agent.enabled && agent.isOnNavMesh)
-        {
-            agent.SetDestination(player.position);
-        }
+        if (!agent.enabled || !agent.isOnNavMesh) return; //prevent errors when disabled
+        
+        agent.SetDestination(player.position);
+        
         
     }
 
@@ -200,7 +207,6 @@ public class EnemyAI : MonoBehaviour
         
         if (collision.gameObject.CompareTag("Bullet"))
         {
-
             
             collisionCount++;
             Debug.Log("collision counts: " + collisionCount);
@@ -208,13 +214,13 @@ public class EnemyAI : MonoBehaviour
 
             if(collisionCount == 3)
             {
+                //call in coroutine or here depending on which one ur using
                 agent.enabled = false;
                 //transform.rotation = Quaternion.Euler(0, 0, 90);
-
-                StartCoroutine(DeadEnemy());
                 //transform.position = new Vector3(transform.position.x, 1, transform.position.z);
-
-                Debug.Log("rotate");
+                ChangeState(EnemyState.Death);
+                StartCoroutine(DeadEnemy());
+                
                 FPSGameManager.Instance.Score++;
             }
         }
@@ -262,6 +268,10 @@ public class EnemyAI : MonoBehaviour
 
     IEnumerator DeadEnemy()
     {
+        //disable agent.isStopped = true agenet.ennabled = false
+        //currentstate = enemystate.death
+
+
         float duration = 2f; // How long the animation should take
         float elapsedTime = 0f;
 
@@ -288,5 +298,13 @@ public class EnemyAI : MonoBehaviour
 
 
     }
+
+    //for syd
+    //make a bool hasUpdatedStates set to false
+    //if bool is false
+    //then add fulfillment
+    //if(!hasupdated)
+        //  fulfillment += 3;
+    //hasupdated = true
 
 }
