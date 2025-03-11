@@ -12,8 +12,9 @@ public class EnemyAI : MonoBehaviour
     private EnemyState currentState;
 
     //references
-    public Transform player;
+    private Transform player;
     private NavMeshAgent agent;
+    private Animator animator;
 
     //patrol settings
     public Transform[] patrolPoints;
@@ -50,20 +51,29 @@ public class EnemyAI : MonoBehaviour
 
         //apply loaded stats
         agent.speed = speed;
+        lastAttackTime = -attackCooldown;
 
         currentState = EnemyState.Patrol; //start with patrolling
         MoveToNextPatrolPoint();
 
         fpshealth = GameObject.FindGameObjectWithTag("Player").GetComponent<FPSHEALTH>();
 
-        /*if(player == null)
+        if(player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
-            Debug.Log("found player");
+            if(player != null)
+            {
+                //Debug.Log("player found in scene");
+            }
+            else
+            {
+                //Debug.Log("no found player");
+            }
             
-        }*/
+            
+        }
 
-        agent.autoBraking = false;
+        animator = GetComponent<Animator>();
         
     }
 
@@ -71,7 +81,7 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"Enemy State: {currentState} | Distance to Player: {Vector3.Distance(transform.position, player.position)} | Speed: {agent.speed} | Has Path: {agent.hasPath}");
+        //Debug.Log($"Enemy State: {currentState} | Distance to Player: {Vector3.Distance(transform.position, player.position)} | Speed: {agent.speed} | Has Path: {agent.hasPath}");
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         //switch statement is like multiple choice descion maker in programming, instead of a bunch if else statements
@@ -104,7 +114,13 @@ public class EnemyAI : MonoBehaviour
                 //attacks player if player moves away switches back to chase
             case EnemyState.Attack:
                 AttackBehavior();
-                if(distanceToPlayer > attackRange) ChangeState(EnemyState.Chase);
+                if (distanceToPlayer > attackRange)
+                {
+                    Debug.Log("Player out of range switching to chase");
+                    ChangeState(EnemyState.Chase);
+
+                }
+
                 break;
         }
     }
@@ -130,7 +146,7 @@ public class EnemyAI : MonoBehaviour
         //if false means path has been fully calculated and enemy is actually moving towards target
         //ensures enemy only switches patrol points after reaching the target
         //if enmy is close enough to patrol point, .5 it moves to next one
-        if(!agent.pathPending && agent.remainingDistance < .5f)
+        if(!agent.pathPending && agent.remainingDistance < .5f && agent.enabled && agent.isOnNavMesh)
         {
             MoveToNextPatrolPoint();
         }
@@ -150,24 +166,31 @@ public class EnemyAI : MonoBehaviour
     //when player is in range enemy follows them
     void ChaseBehavior()
     {
-        if(!agent.hasPath || agent.remainingDistance < 0.5f)
+        //syd needs the if statement everyone else just needs {}
+        if(agent.enabled && agent.isOnNavMesh)
         {
             agent.SetDestination(player.position);
         }
         
-        //Debug.Log("chase called");
     }
 
     //if player within attack range enemy attacks
     //uses cooldown to prevent spamming attacks
     void AttackBehavior()
     {
-        if(Time.time >= lastAttackTime + attackCooldown)
+        float currentTime = Time.time;
+        //Debug.Log($"Attack Check - Current Time: {currentTime}, Last Attack Time: {lastAttackTime}, Cooldown: {attackCooldown}");
+
+        if (currentTime >= lastAttackTime + attackCooldown)
         {
-            lastAttackTime = Time.time;
+            lastAttackTime = currentTime;
             //Debug.Log("Enemy attacked player");
 
             fpshealth.ChangeHealth(-attackDamage);
+        }
+        else
+        {
+            Debug.Log("attack on cooldown");
         }
         
     }
@@ -178,14 +201,20 @@ public class EnemyAI : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet"))
         {
 
-            //why couldnt i declare collisioncount locally?
+            
             collisionCount++;
             Debug.Log("collision counts: " + collisionCount);
             Debug.Log("Enemy hit");
 
             if(collisionCount == 3)
             {
-                Destroy(gameObject);
+                agent.enabled = false;
+                //transform.rotation = Quaternion.Euler(0, 0, 90);
+
+                StartCoroutine(DeadEnemy());
+                //transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+
+                Debug.Log("rotate");
                 FPSGameManager.Instance.Score++;
             }
         }
@@ -212,8 +241,8 @@ public class EnemyAI : MonoBehaviour
                 //find the enemy that marches the requested name
                 if (enemy.name == enemyName)
                 {
-                    Debug.Log($"Enemy {enemy.name} found! Assigning stats...");
-                    health = enemy.health;
+                    //Debug.Log($"Enemy {enemy.name} found! Assigning stats...");
+                    //health = enemy.health;
                     speed = enemy.speed;
                     detectionRange = enemy.detectionRange;
                     attackRange = enemy.attackRange;
@@ -229,6 +258,35 @@ public class EnemyAI : MonoBehaviour
         {
             Debug.Log("enemy json file not found");
         }
+    }
+
+    IEnumerator DeadEnemy()
+    {
+        float duration = 2f; // How long the animation should take
+        float elapsedTime = 0f;
+
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = new Vector3(startPos.x, startPos.y - .6f, startPos.z); // Move down slightly
+
+        Quaternion startRot = transform.rotation;
+        Quaternion targetRot = Quaternion.Euler(0, 0, 90); // Rotate on Z
+
+        while (elapsedTime < duration)
+        {
+            transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime / duration);
+            transform.rotation = Quaternion.Lerp(startRot, targetRot, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait for the next frame
+        }
+
+        // Ensure the final position & rotation are set
+        transform.position = targetPos;
+        transform.rotation = targetRot;
+
+        yield return new WaitForSeconds(2f); // Pause before destroying
+        Destroy(gameObject); // Remove the enemy
+
+
     }
 
 }

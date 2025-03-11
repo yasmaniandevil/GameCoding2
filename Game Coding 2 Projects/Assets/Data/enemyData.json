@@ -4,16 +4,16 @@
 			"name": "Grunt",
 			"health": 100,
 			"speed": 3.5,
-			"detectionRange": 50,
+			"detectionRange": 25,
 			"attackRange": 1.5,
-			"attackCooldown": 5,
+			"attackCooldown": 10,
 			"attackDamage": 5
 		},
 		{
 			"name": "Ogre",
 			"health": 250,
 			"speed": 2.0,
-			"detectionRange": 15,
+			"detectionRange": 10,
 			"attackRange": 2.5,
 			"attackCooldown": 10,
 			"attackDamage": 10
@@ -23,8 +23,8 @@
 			"name": "Sniper",
 			"health": 75,
 			"speed": 2.5,
-			"detectionRange": 30,
-			"attackRange": 5,
+			"detectionRange": 25,
+			"attackRange": 2,
 			"attackCooldown": 20,
 			"attackDamage": 5
 		}

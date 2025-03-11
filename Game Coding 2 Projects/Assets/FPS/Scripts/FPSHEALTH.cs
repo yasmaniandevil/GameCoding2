@@ -9,22 +9,20 @@ public class FPSHEALTH : MonoBehaviour
 
     public float maxHealth = 100;
     public float currentHealth;
-    public int addHealth = 5;
+    //public int addHealth = 5;
 
     // Start is called before the first frame update
     void Start()
     {
         if (maxHealth <= 0) maxHealth = 100; // Default max health if not set
         currentHealth = maxHealth;
+        Debug.Log("health reset to max");
         
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ChangeHealth(+20);
-        }
+        
     }
 
     public void ChangeHealth(float amount)
