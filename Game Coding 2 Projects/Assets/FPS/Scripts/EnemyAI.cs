@@ -15,7 +15,7 @@ public class EnemyAI : MonoBehaviour
     //references
     private Transform player;
     private NavMeshAgent agent;
-    private Animator animator;
+    
 
     //patrol settings
     public Transform[] patrolPoints;
@@ -74,7 +74,7 @@ public class EnemyAI : MonoBehaviour
             
         }
 
-        animator = GetComponent<Animator>();
+        
         
     }
 
@@ -82,7 +82,7 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log($"Enemy State: {currentState} | Distance to Player: {Vector3.Distance(transform.position, player.position)} | Speed: {agent.speed} | Has Path: {agent.hasPath}");
+        Debug.Log($"Enemy State: {currentState} | Distance to Player: {Vector3.Distance(transform.position, player.position)} | Speed: {agent.speed} | Has Path: {agent.hasPath}");
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         //switch statement is like multiple choice descion maker in programming, instead of a bunch if else statements
@@ -197,7 +197,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            Debug.Log("attack on cooldown");
+            Debug.Log("attacking cooldown");
         }
         
     }
