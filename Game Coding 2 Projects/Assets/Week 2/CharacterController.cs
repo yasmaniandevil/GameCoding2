@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CharacterControl : MonoBehaviour
+public class CharacterController : MonoBehaviour
 {
     //stores movement input
     private Vector3 PlayerMovementInput;
     //stores velocity for gravity and jumping y axis movement
     private Vector3 velocity;
-    private CharacterController controller;
+    private UnityEngine.CharacterController controller;
     //negative to pull the player down
     private float gravity = -9.81f;
 
@@ -43,7 +43,7 @@ public class CharacterControl : MonoBehaviour
     {
         Time.timeScale = 1.0f;
 
-        controller = GetComponent<CharacterController>();
+        controller = GetComponent<UnityEngine.CharacterController>();
          
     }
 

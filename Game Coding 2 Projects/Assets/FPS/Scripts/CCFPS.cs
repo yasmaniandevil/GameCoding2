@@ -5,7 +5,7 @@ using UnityEngine;
 public class CCFPS : MonoBehaviour
 {
 
-    private CharacterController cc;
+    private UnityEngine.CharacterController cc;
     public float speed;
     private Vector3 playerMovement;
     public float jumpForce;
@@ -28,7 +28,7 @@ public class CCFPS : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cc = GetComponent<CharacterController>();
+        cc = GetComponent<UnityEngine.CharacterController>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
