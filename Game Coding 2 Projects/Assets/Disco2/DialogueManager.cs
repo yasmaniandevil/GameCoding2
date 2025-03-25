@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class DialogueManager : MonoBehaviour
 {
 
     //reference to our scriptable obj
-    public DialogueLine startingLine;
+    public DialogueObject startingLine;
 
     //content of scroll view
     public Transform chatContent;
@@ -23,25 +24,32 @@ public class DialogueManager : MonoBehaviour
     public Button continueButton;
 
     //keeps track of dialogue line currently showing
-    DialogueLine currentLine;
+    DialogueObject currentLine;
+
+    private int currentIndex = 0;
+    private bool waitingForChoice = false;
 
    
     //calls when interaction begins (trigger or key)
-    public void StartingDialogue()
+    public void StartingDialogue(DialogueObject convo)
     {
         //starts dialogue flow by calling update dialogue and passing in the first line
-        UpdateDialogue(startingLine);
+        //UpdateDialogue(startingLine);
+
+        currentLine = convo;
+        currentIndex = 0;
+        StartCoroutine(RunConvo());
     }
 
     public void UpdateDialogue(DialogueLine line)
     {
         //sets current line to the passed in line
-        currentLine = line;
-        ShowLine(currentLine);
+        //currentLine = line;
+        //ShowLine(currentLine);
 
         
         //enables continue button when dialogue begins
-        continueButton.enabled = true;
+        //continueButton.enabled = true;
     }
 
     void ShowLine(DialogueLine line)
@@ -109,4 +117,54 @@ public class DialogueManager : MonoBehaviour
     //add typewriter effect
     //add speaker name
     //add auto scroll to bottom on new messages
+
+    IEnumerator RunConvo()
+    {
+        while(currentIndex < currentLine.dialogueEntries.Count)
+        {
+            DialogueEntries entry = currentLine.dialogueEntries[currentIndex];
+            
+            ShowMessages(entry);
+
+            if(entry.choices != null && entry.choices.Length > 0)
+            {
+                ShowChoices(entry);
+                waitingForChoice = true;
+                yield return new WaitUntil(() => waitingForChoice == false);
+            }
+            else
+            {
+                yield return new WaitForSeconds(1f);
+                currentIndex++;
+            }
+        }
+    }
+
+    void ShowMessages(DialogueEntries entry)
+    {
+        GameObject bubble = Instantiate(textLinePrefab, chatContent);
+        TextMeshProUGUI textComp = bubble.GetComponentInChildren<TextMeshProUGUI>();
+        textComp.text = (entry.isPlayer ? "<b>You:</b> " : "<b>NPC:</b> ") + entry.text;
+    }
+
+    void ShowChoices(DialogueEntries entry)
+    {
+        foreach (Transform child in choiceContainer) Destroy(child.gameObject);
+
+        /*foreach (DialogueChoices choice in entry.choices)
+        {
+            GameObject btnObj = Instantiate(choiceButtonPrefab, choiceContainer);
+            btnObj.GetComponentInChildren<TextMeshProUGUI>().text = choice.choiceText;
+            btnObj.GetComponent<Button>().onClick.AddListener(() => {
+                foreach (Transform child in choiceContainer) Destroy(child.gameObject);
+                ShowMessages(new DialogueEntries { text = choice.choiceText, isPlayer = true });
+                //currentLine = choice.nextConvo;
+                currentIndex = 0;
+                waitingForChoice = false;
+                StopAllCoroutines();
+                StartCoroutine(RunConvo());
+            });
+        }*/
+    }
+
 }

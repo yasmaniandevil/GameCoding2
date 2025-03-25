@@ -13,6 +13,8 @@ public class Interact : MonoBehaviour
     public DialogueManager dialogueManager;
     //if start on trigger is true
     public bool startOnTrigger;
+
+    public DialogueObject startingDialouge;
     
 
 
@@ -60,7 +62,7 @@ public class Interact : MonoBehaviour
 
         if(startOnTrigger && dialogueManager != null)
         {
-            dialogueManager.StartingDialogue();
+            dialogueManager.StartingDialogue(startingDialouge);
             //has talked = true so npc only triggers once
         }
     }

@@ -2,24 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Conversation : ScriptableObject
+[CreateAssetMenu(menuName = "Dialogue/OBJ")]
+public class DialogueObject : ScriptableObject
 {
-    public List<Conversation> conversationEntries;
+    public List<DialogueEntries> dialogueEntries;
 }
 
 [System.Serializable]
-public class ConversationEntry
+public class DialogueEntries
 {
     public string speaker;
     [TextArea] public string text;
     public float waitBeforeNext = 1f;
     public DialogueChoice[] choices;
+    public bool isPlayer;
 }
 
 [System.Serializable]
-public class ConversationChoice
+public class DialogueChoices
 {
     public string choiceText;
-    public ConversationChoice nextConvo;
+    public DialogueChoices nextConvo;
     
 }
