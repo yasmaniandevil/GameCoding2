@@ -176,7 +176,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 20
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -841,7 +841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingLine: {fileID: 11400000, guid: 09de9b0ff1dc2416cb78ed9dcc9d0a48, type: 2}
   chatContent: {fileID: 2023838901}
-  chatBubblePrefab: {fileID: 7423947647374815080, guid: ac8ee5d26c6e14120943b248cef4bafe, type: 3}
+  textLinePrefab: {fileID: 0}
   choiceButtonPrefab: {fileID: 6613051963278469566, guid: 38942ec9d95f84650961808b06d741f6, type: 3}
   choiceContainer: {fileID: 33101215}
   continueButton: {fileID: 1707387185}
@@ -1589,7 +1589,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1707387185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1687,10 +1687,10 @@ RectTransform:
   - {fileID: 341642677}
   m_Father: {fileID: 2023838901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 480, y: -170}
+  m_SizeDelta: {x: 960, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2023838900
 GameObject:
