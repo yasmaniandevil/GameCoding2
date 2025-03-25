@@ -18,12 +18,12 @@ public class DialogueManager : MonoBehaviour
 
     DialogueLine currentLine;
 
-    void Start()
+    public void StartingDialogue()
     {
-        StartDialogue(startingLine);
+        UpdateDialogue(startingLine);
     }
 
-    public void StartDialogue(DialogueLine line)
+    public void UpdateDialogue(DialogueLine line)
     {
         currentLine = line;
         ShowLine(currentLine);
