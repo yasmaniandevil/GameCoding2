@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Dialogue/Line")]
-
+//SO is a data container, allows you to store large quantites of shared data independent from script instances
     public class DialogueLine : ScriptableObject
     {
         [TextArea] public string text;

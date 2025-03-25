@@ -61,6 +61,7 @@ public class Interact : MonoBehaviour
         if(startOnTrigger && dialogueManager != null)
         {
             dialogueManager.StartingDialogue();
+            //has talked = true so npc only triggers once
         }
     }
 

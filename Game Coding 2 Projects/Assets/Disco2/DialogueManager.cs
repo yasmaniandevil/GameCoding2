@@ -72,13 +72,19 @@ public class DialogueManager : MonoBehaviour
         choiceContainer.transform.SetAsLastSibling();
 
         //display choices or continue button
+        //does this dialogue line even have choices? are there any options in the list?
+        //if yes continue
         if (line.choices != null && line.choices.Length > 0)
         {
-            foreach (var choice in line.choices)
+            //for every choice attached to the line
+            foreach (DialogueChoice choice in line.choices)
             {
+                //create a button
                 GameObject btnObj = Instantiate(choiceButtonPrefab, choiceContainer);
+                //set buttons text to say what the choice text is
                 btnObj.GetComponentInChildren<TextMeshProUGUI>().text = choice.choiceText;
 
+                //when this button is clicked show the next line of dialogue linked to this choice
                 btnObj.GetComponent<Button>().onClick.AddListener(() => {
                     ShowLine(choice.nextLine);
                 });
