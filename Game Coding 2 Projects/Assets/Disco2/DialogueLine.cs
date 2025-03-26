@@ -11,7 +11,7 @@ using UnityEngine;
         public DialogueLine nextLine;
         public DialogueChoice[] choices;
 
-        public List<DialogueLine> dialogueLines;
+        
     }
 
     [System.Serializable]
