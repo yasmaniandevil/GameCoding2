@@ -10,6 +10,8 @@ using UnityEngine;
         public bool isPlayer;
         public DialogueLine nextLine;
         public DialogueChoice[] choices;
+
+        public List<DialogueLine> dialogueLines;
     }
 
     [System.Serializable]
