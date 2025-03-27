@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class DialogueManager : MonoBehaviour
     public DialogueLine startingLine;
 
     //content of scroll view
-    public Transform chatContent;
+    public Transform chatContent; //where messages will be placed
     //template for single chat message
     //can add an image as a parent for a "bubble"
     public GameObject textLinePrefab;
@@ -25,12 +26,20 @@ public class DialogueManager : MonoBehaviour
     //keeps track of dialogue line currently showing
     DialogueLine currentLine;
 
-    bool optionSelected = false;
 
+    //later
+    bool dialogueRunning = false;
+    public bool endConversation;
+    public UnityEvent onEndConversation;
    
     //calls when interaction begins (trigger or key)
     public void StartingDialogue()
     {
+        //later in lesson
+        if(dialogueRunning) return;
+        dialogueRunning = true;
+        
+        //FIRST
         //starts dialogue flow by calling update dialogue and passing in the first line
         UpdateDialogue(startingLine);
 
@@ -39,8 +48,7 @@ public class DialogueManager : MonoBehaviour
 
     public void UpdateDialogue(DialogueLine line)
     {
-        //later in lesson
-        optionSelected = true;
+        
 
         //{{{!!!@!!!FIRST THIS
         //sets current line to the passed in line
@@ -61,14 +69,17 @@ public class DialogueManager : MonoBehaviour
         
         foreach (string dialogueLine in currentLine.dialogueLinesList)
         {
+            //make a new copy of the button
             GameObject dialogueText = Instantiate(textLinePrefab, chatContent);
             //TextMeshProUGUI dialogueTextVar = GetComponentInChildren<TextMeshProUGUI>();
             TextMeshProUGUI dialogueTextVar = dialogueText.GetComponent<TextMeshProUGUI>();
+            //set the text of it to whatever string we are currently looping over
             dialogueTextVar.text = dialogueLine;
             yield return new WaitForSeconds(1f);
 
         }
 
+        //ensure continue button is below all chat
         continueButton.transform.SetAsLastSibling();
 
         // Clear old choice buttons so they dont stack
@@ -94,26 +105,30 @@ public class DialogueManager : MonoBehaviour
                 Debug.Log("choice text" + choice.nextLine + choice.choiceText);
                 Debug.Log("choice was clicked");
 
-                //when this button is clicked show the next line of dialogue linked to this choice
-                /*btnObj.GetComponent<Button>().onClick.AddListener(() => {
-                    //ShowLine(choice.nextLine);
-                    //StartCoroutine(DisplayDialogue(choice.nextLine));
-                    Debug.Log("called coroutine in choice");
-                    
-                });*/
+                
             }
         }
-        //if there are no choices but theres another line show continue button
+        //if there are no choices but theres next line show continue button
         //remove all listeners ensures we dont accidently stack duplicate listeners
         //clicking the button triggers the next line
         else if (line.nextLine != null)
         {
             continueButton.gameObject.SetActive(true);
+            //clear everything out that was set to happen when the button was clicked
+            //reusing the same button for diff lines if we dont clear it clicking button could trigger old lines
             continueButton.onClick.RemoveAllListeners();
+            //when this button is clicked run this code
             continueButton.onClick.AddListener(() =>
             {
-                UpdateDialogue(line.nextLine);
-                continueButton.gameObject.SetActive(false);
+                UpdateDialogue(line.nextLine); //continue to next line
+                continueButton.gameObject.SetActive(false); //hide button after clicking
+
+                //later in lesson to ensure ending conversation
+                if(line.choices == null && line.nextLine == null)
+                {
+                    onEndConversation.Invoke();
+                    dialogueRunning = false;
+                }
                 
             });
         }
@@ -121,70 +136,5 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    //fade out gray previous lines for clarity
-    //add typewriter effect
-    //add speaker name
-    //add auto scroll to bottom on new messages
-    //add another character
-
-    /*void ShowLine(DialogueLine line)
-    {
-        //no line set up
-        //avoid errors if a line wasnt passed in
-        if (line == null) {
-
-            Debug.Log("no Line");
-            return;
-
-        } 
-        // Instantiate chat bubble child it chatContent
-        GameObject bubble = Instantiate(textLinePrefab, chatContent);
-        //grab the textmeshpro component from child of bubble
-        TextMeshProUGUI textComp = bubble.GetComponentInChildren<TextMeshProUGUI>();
-        //updates text inside text mesh pro
-        textComp.text = line.text;
-
-        //makes sure continue button always at the bottom of scroll view after adding more chat
-        continueButton.transform.SetAsLastSibling();
-
-        // Clear old choice buttons so they dont stack
-        foreach (Transform child in choiceContainer) Destroy(child.gameObject);
-        //hides continue button by default
-        continueButton.gameObject.SetActive(false);
-        //button choices appear after latest chat line
-        choiceContainer.transform.SetAsLastSibling();
-
-        //display choices or continue button
-        //does this dialogue line even have choices? are there any options in the list?
-        //if yes continue
-        if (line.choices != null && line.choices.Length > 0)
-        {
-            //for every choice attached to the line
-            foreach (DialogueChoice choice in line.choices)
-            {
-                //create a button
-                GameObject btnObj = Instantiate(choiceButtonPrefab, choiceContainer);
-                //set buttons text to say what the choice text is
-                btnObj.GetComponentInChildren<TextMeshProUGUI>().text = choice.choiceText;
-
-                //when this button is clicked show the next line of dialogue linked to this choice
-                btnObj.GetComponent<Button>().onClick.AddListener(() => {
-                    ShowLine(choice.nextLine);
-                });
-            }
-        }
-        //if there are no choices but theres another line show continue button
-        //remove all listeners ensures we dont accidently stack duplicate listeners
-        //clicking the button triggers the next line
     
-        else if (line.nextLine != null)
-        {
-            continueButton.gameObject.SetActive(true);
-            continueButton.onClick.RemoveAllListeners();
-            continueButton.onClick.AddListener(() => 
-            {
-                ShowLine(line.nextLine);
-            });
-        }
-    }*/
 }

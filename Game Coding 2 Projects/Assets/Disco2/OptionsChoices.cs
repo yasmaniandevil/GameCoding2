@@ -11,6 +11,7 @@ public class OptionsChoices : MonoBehaviour
 
 
     //did the _ before to show diff var naming conventions
+    //called by dialoguemanager
     public void SetUp(DialogueManager _dialogueManager, DialogueLine _dialogueLine, string _dialogueText)
     {
         dialogueManager = _dialogueManager;

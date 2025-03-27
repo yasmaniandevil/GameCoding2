@@ -6,6 +6,11 @@ using UnityEngine.Events;
 
 public class Interact : MonoBehaviour
 {
+    //think of events as functions you can run later when something happen
+    //instead of hardcoding call this function
+    //you can say when this happens...run whatever functions are hooked up here
+    //like a universal remove you press invoke() and every connected device turns on
+    //unity event lets you hook up things in the inspector
     public UnityEvent OnInteract;
 
     public Canvas canvas;
@@ -27,7 +32,7 @@ public class Interact : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Interaction();
+            Interaction(); //trigger interaction manually
         }
 
 
@@ -36,7 +41,8 @@ public class Interact : MonoBehaviour
     private void Interaction()
     {
         Debug.Log("Interacting");
-        OnInteract.Invoke();
+        //lets run every function in my list!
+        OnInteract.Invoke(); //trigger unity event
     }
 
     private void OnEnable()
@@ -57,7 +63,7 @@ public class Interact : MonoBehaviour
     {
         canvas.enabled = true;
         
-
+        
         if(startOnTrigger && dialogueManager != null)
         {
             dialogueManager.StartingDialogue();
