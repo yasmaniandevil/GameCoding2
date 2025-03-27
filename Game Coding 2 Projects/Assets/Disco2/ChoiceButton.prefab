@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8244798774931243341}
   - component: {fileID: 4987207638361425216}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ChoiceText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,8 +146,9 @@ GameObject:
   - component: {fileID: 7813715645218329745}
   - component: {fileID: 5346149645953708403}
   - component: {fileID: 3494161985103878482}
+  - component: {fileID: 4992233802710747225}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ChoiceButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,4 +255,29 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5346149645953708403}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4992233802710747225}
+        m_TargetAssemblyTypeName: OptionsChoices, Assembly-CSharp
+        m_MethodName: SelectOption
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4992233802710747225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6613051963278469566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be6b1bcacf2be6443b89d10d228c1082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: {fileID: 4987207638361425216}

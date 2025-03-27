@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee00c01a7a194d5ba47af48b8a30eac, type: 3}
   m_Name: line3
   m_EditorClassIdentifier: 
-  text: how are you?
+  dialogueLinesList:
+  - start of line 3
+  - 3
+  - end of line 3
   isPlayer: 0
   nextLine: {fileID: 0}
   choices:

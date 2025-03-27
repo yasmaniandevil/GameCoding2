@@ -15,9 +15,7 @@ MonoBehaviour:
   dialogueLinesList:
   - bitch
   - ass
-  - hoe
-  - 
-  text: my name is yasmine
+  - end of line 2
   isPlayer: 0
   nextLine: {fileID: 11400000, guid: 384106f5f246948c6868cb516043de9a, type: 2}
   choices: []
