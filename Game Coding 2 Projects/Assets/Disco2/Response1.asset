@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Response1
   m_EditorClassIdentifier: 
   dialogueLinesList:
-  - huishhline4
+  - Path 1
   isPlayer: 0
-  nextLine: {fileID: 0}
+  nextLine: {fileID: 11400000, guid: 09de9b0ff1dc2416cb78ed9dcc9d0a48, type: 2}
   choices: []

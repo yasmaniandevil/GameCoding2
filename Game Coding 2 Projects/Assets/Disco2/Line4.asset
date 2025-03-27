@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee00c01a7a194d5ba47af48b8a30eac, type: 3}
   m_Name: Line4
   m_EditorClassIdentifier: 
-  text: Life goes on
+  dialogueLinesList:
+  - where are we
+  - df
+  - end of line 4
   isPlayer: 0
   nextLine: {fileID: 11400000, guid: 7f5bff98814337443aababa3c69ccfca, type: 2}
   choices: []

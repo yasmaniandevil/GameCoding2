@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee00c01a7a194d5ba47af48b8a30eac, type: 3}
   m_Name: Line5
   m_EditorClassIdentifier: 
-  text: and on...
+  dialogueLinesList:
+  - start of line 5
+  - end of line 6
   isPlayer: 0
-  nextLine: {fileID: 11400000, guid: b5cf97c1557c8c04f8ef1e22d9cb6f31, type: 2}
+  nextLine: {fileID: 11400000, guid: 59493e9e55df3894fa56e50f1f32b1a7, type: 2}
   choices: []

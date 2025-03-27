@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee00c01a7a194d5ba47af48b8a30eac, type: 3}
   m_Name: Line6
   m_EditorClassIdentifier: 
-  text: forever and ever
+  dialogueLinesList:
+  - why
   isPlayer: 0
   nextLine: {fileID: 0}
   choices:
   - choiceText: You think so?
-    nextLine: {fileID: 11400000, guid: 7bcd586f98ff0bb4ba1441662efaeff8, type: 2}
+    nextLine: {fileID: 11400000}
   - choiceText: But its nice right!
-    nextLine: {fileID: 0}
+    nextLine: {fileID: 11400000, guid: d68f335b00bbfdb499c3b7844c013683, type: 2}
