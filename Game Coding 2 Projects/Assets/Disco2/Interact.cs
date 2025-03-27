@@ -50,6 +50,7 @@ public class Interact : MonoBehaviour
         DiscoPlayer.OnInteract += Interaction;
         DiscoPlayer.OnEnterInteractable += ShowUI;
         DiscoPlayer.OnExitInteractable += HideUI;
+         
     }
 
     private void OnDisable()

@@ -17,6 +17,7 @@ using UnityEngine;
         //for later
         public bool isPlayer;
         
+        //you can add a unity event UnityEvent OnChoose
     }
     //each individual choice a player can make
     [System.Serializable]
