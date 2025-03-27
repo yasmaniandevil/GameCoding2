@@ -18,6 +18,7 @@ public class OptionsChoices : MonoBehaviour
         dialogueText.text = _dialogueText;
     }
 
+    //dont need for now
     public void SelectOption()
     {
         dialogueManager.UpdateDialogue(dialogueLine);
