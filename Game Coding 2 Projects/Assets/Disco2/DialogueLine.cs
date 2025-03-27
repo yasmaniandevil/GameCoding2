@@ -9,7 +9,7 @@ using UnityEngine;
     
         public List<string> dialogueLinesList = new List<string>();
 
-        [TextArea] public string text;
+        //[TextArea] public string text;
         public bool isPlayer;
         public DialogueLine nextLine;
         public DialogueChoice[] choices;

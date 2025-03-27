@@ -37,10 +37,12 @@ public class DialogueManager : MonoBehaviour
     {
         //sets current line to the passed in line
         currentLine = line;
+        Debug.Log("Current Line" + currentLine);
         //ShowLine(currentLine);
         StartCoroutine(DisplayDialogue(currentLine));
+        Debug.Log("called corotine on CALL");
 
-        
+
         //enables continue button when dialogue begins
         continueButton.enabled = true;
     }
@@ -55,7 +57,7 @@ public class DialogueManager : MonoBehaviour
             return;
 
         } 
-        // Instantiate chat bubble child it to chatContent
+        // Instantiate chat bubble child it chatContent
         GameObject bubble = Instantiate(textLinePrefab, chatContent);
         //grab the textmeshpro component from child of bubble
         TextMeshProUGUI textComp = bubble.GetComponentInChildren<TextMeshProUGUI>();
@@ -94,6 +96,7 @@ public class DialogueManager : MonoBehaviour
         //if there are no choices but theres another line show continue button
         //remove all listeners ensures we dont accidently stack duplicate listeners
         //clicking the button triggers the next line
+    
         else if (line.nextLine != null)
         {
             continueButton.gameObject.SetActive(true);
@@ -107,15 +110,28 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator DisplayDialogue(DialogueLine line)
     {
-        for(int i = 0; i < startingLine.dialogueLinesList.Count; i++)
+        //for every string on the list create a text line
+        /*for(int i = 0; i < startingLine.dialogueLinesList.Count; i++)
         {
+            
             Debug.Log(startingLine.dialogueLinesList[i]);
-            GameObject bubble = Instantiate(textLinePrefab, chatContent);
+            GameObject dialogueText = Instantiate(textLinePrefab, chatContent);
             //grab the textmeshpro component from child of bubble
-            TextMeshProUGUI textComp = bubble.GetComponentInChildren<TextMeshProUGUI>();
+            TextMeshProUGUI dialogueTextVar = dialogueText.GetComponentInChildren<TextMeshProUGUI>();
             //updates text inside text mesh pro
-            textComp.text = startingLine.dialogueLinesList[i];
+            dialogueTextVar.text = startingLine.dialogueLinesList[i];
             yield return new WaitForSeconds(1);
+        }*/
+        
+
+        foreach (string dialogueLine in currentLine.dialogueLinesList)
+        {
+            GameObject dialogueText = Instantiate(textLinePrefab, chatContent);
+            //TextMeshProUGUI dialogueTextVar = GetComponentInChildren<TextMeshProUGUI>();
+            TextMeshProUGUI dialogueTextVar = dialogueText.GetComponent<TextMeshProUGUI>();
+            dialogueTextVar.text = dialogueLine;
+            yield return new WaitForSeconds(1f);
+
         }
 
         continueButton.transform.SetAsLastSibling();
@@ -143,7 +159,9 @@ public class DialogueManager : MonoBehaviour
                 //when this button is clicked show the next line of dialogue linked to this choice
                 btnObj.GetComponent<Button>().onClick.AddListener(() => {
                     //ShowLine(choice.nextLine);
-                    DisplayDialogue(choice.nextLine);
+                    //StartCoroutine(DisplayDialogue(choice.nextLine));
+                    Debug.Log("called coroutine in choice");
+                    Debug.Log("choice was clicked");
                 });
             }
         }
@@ -157,7 +175,10 @@ public class DialogueManager : MonoBehaviour
             continueButton.onClick.AddListener(() =>
             {
                 //ShowLine(line.nextLine);
-                DisplayDialogue(line.nextLine);
+                //StartCoroutine(DisplayDialogue(line.nextLine));
+                Debug.Log("Choice Next Line: " + line.nextLine);
+                Debug.Log("continue was clicked");
+                Debug.Log("called corotunie in continue");
             });
         }
     }

@@ -17,7 +17,6 @@ MonoBehaviour:
   - how
   - 'r '
   - usdufnsdlkjfnsdf
-  text: Hello
   isPlayer: 0
   nextLine: {fileID: 11400000, guid: 7be70289c1f7441d488b66678cada2e2, type: 2}
   choices: []
