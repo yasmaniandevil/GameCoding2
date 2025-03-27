@@ -37,14 +37,15 @@ public class DialogueManager : MonoBehaviour
     {
         //sets current line to the passed in line
         currentLine = line;
-        ShowLine(currentLine);
+        //ShowLine(currentLine);
+        StartCoroutine(DisplayDialogue(currentLine));
 
         
         //enables continue button when dialogue begins
         continueButton.enabled = true;
     }
 
-    void ShowLine(DialogueLine line)
+    /*void ShowLine(DialogueLine line)
     {
         //no line set up
         //avoid errors if a line wasnt passed in
@@ -102,9 +103,64 @@ public class DialogueManager : MonoBehaviour
                 ShowLine(line.nextLine);
             });
         }
+    }*/
+
+    IEnumerator DisplayDialogue(DialogueLine line)
+    {
+        for(int i = 0; i < startingLine.dialogueLinesList.Count; i++)
+        {
+            Debug.Log(startingLine.dialogueLinesList[i]);
+            GameObject bubble = Instantiate(textLinePrefab, chatContent);
+            //grab the textmeshpro component from child of bubble
+            TextMeshProUGUI textComp = bubble.GetComponentInChildren<TextMeshProUGUI>();
+            //updates text inside text mesh pro
+            textComp.text = startingLine.dialogueLinesList[i];
+            yield return new WaitForSeconds(1);
+        }
+
+        continueButton.transform.SetAsLastSibling();
+
+        // Clear old choice buttons so they dont stack
+        foreach (Transform child in choiceContainer) Destroy(child.gameObject);
+        //hides continue button by default
+        continueButton.gameObject.SetActive(false);
+        //button choices appear after latest chat line
+        choiceContainer.transform.SetAsLastSibling();
+
+        //display choices or continue button
+        //does this dialogue line even have choices? are there any options in the list?
+        //if yes continue
+        if (line.choices != null && line.choices.Length > 0)
+        {
+            //for every choice attached to the line
+            foreach (DialogueChoice choice in line.choices)
+            {
+                //create a button
+                GameObject btnObj = Instantiate(choiceButtonPrefab, choiceContainer);
+                //set buttons text to say what the choice text is
+                btnObj.GetComponentInChildren<TextMeshProUGUI>().text = choice.choiceText;
+
+                //when this button is clicked show the next line of dialogue linked to this choice
+                btnObj.GetComponent<Button>().onClick.AddListener(() => {
+                    //ShowLine(choice.nextLine);
+                    DisplayDialogue(choice.nextLine);
+                });
+            }
+        }
+        //if there are no choices but theres another line show continue button
+        //remove all listeners ensures we dont accidently stack duplicate listeners
+        //clicking the button triggers the next line
+        else if (line.nextLine != null)
+        {
+            continueButton.gameObject.SetActive(true);
+            continueButton.onClick.RemoveAllListeners();
+            continueButton.onClick.AddListener(() =>
+            {
+                //ShowLine(line.nextLine);
+                DisplayDialogue(line.nextLine);
+            });
+        }
     }
-
-
     //fade out gray previous lines for clarity
     //add typewriter effect
     //add speaker name

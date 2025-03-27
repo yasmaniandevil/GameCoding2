@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee00c01a7a194d5ba47af48b8a30eac, type: 3}
   m_Name: Line2
   m_EditorClassIdentifier: 
+  dialogueLinesList:
+  - bitch
+  - ass
+  - hoe
+  - 
   text: my name is yasmine
   isPlayer: 0
   nextLine: {fileID: 11400000, guid: 384106f5f246948c6868cb516043de9a, type: 2}

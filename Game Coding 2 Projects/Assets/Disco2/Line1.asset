@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee00c01a7a194d5ba47af48b8a30eac, type: 3}
   m_Name: Line1
   m_EditorClassIdentifier: 
+  dialogueLinesList:
+  - hi
+  - how
+  - 'r '
+  - usdufnsdlkjfnsdf
   text: Hello
   isPlayer: 0
   nextLine: {fileID: 11400000, guid: 7be70289c1f7441d488b66678cada2e2, type: 2}
   choices: []
-  dialogueLines: []

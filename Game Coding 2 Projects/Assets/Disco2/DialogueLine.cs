@@ -6,6 +6,9 @@ using UnityEngine;
 //SO is a data container, allows you to store large quantites of shared data independent from script instances
     public class DialogueLine : ScriptableObject
     {
+    
+        public List<string> dialogueLinesList = new List<string>();
+
         [TextArea] public string text;
         public bool isPlayer;
         public DialogueLine nextLine;
