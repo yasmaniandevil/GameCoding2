@@ -9,6 +9,9 @@ using UnityEngine;
         //list of text to show
         [TextArea]public List<string> dialogueLinesList = new List<string>();
 
+        //add last in lesson
+        public string speakerName;
+
         //next line if there are no choices
         public DialogueLine nextLine;
         //choices if there are any

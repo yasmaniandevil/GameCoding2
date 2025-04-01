@@ -15,6 +15,7 @@ MonoBehaviour:
   dialogueLinesList:
   - hi
   - how
+  speakerName: Jenny
   nextLine: {fileID: 11400000, guid: 7be70289c1f7441d488b66678cada2e2, type: 2}
   choices: []
   isPlayer: 0

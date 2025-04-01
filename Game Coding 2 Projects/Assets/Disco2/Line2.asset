@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueLinesList:
   - line 2
+  speakerName: Bob
   nextLine: {fileID: 11400000, guid: 384106f5f246948c6868cb516043de9a, type: 2}
   choices: []
   isPlayer: 0

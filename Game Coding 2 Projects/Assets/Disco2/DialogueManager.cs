@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
 {
-
+    
     //reference to our scriptable obj
     public DialogueLine startingLine;
 
@@ -74,6 +74,13 @@ public class DialogueManager : MonoBehaviour
             TextMeshProUGUI dialogueTextVar = dialogueText.GetComponent<TextMeshProUGUI>();
             //set the text of it to whatever string we are currently looping over
             dialogueTextVar.text = dialogueLine;
+
+            //later in lesson
+            if (!string.IsNullOrEmpty(line.speakerName))
+            {
+
+                dialogueTextVar.text = $"<b>{line.speakerName}:</b> {dialogueLine}";
+            }
             yield return new WaitForSeconds(1f);
 
         }
@@ -109,8 +116,9 @@ public class DialogueManager : MonoBehaviour
                 //if there is no required stat we skip this if statement
                 if (!string.IsNullOrEmpty(choice.requiredStat))
                 {
-                    //checks player stats and returns the current value (stored in playerStat)
+
                     //@@@@!!!!%%%MAYBE DO THIS ONE FIRST THE HELPER FUNCTION?
+                    //checks player stats and returns the current value (stored in playerStat)
                     //int playerStat = GetPlayerStatValue(choice.requiredStat);
 
 
@@ -155,9 +163,6 @@ public class DialogueManager : MonoBehaviour
                     });*/
 
                     newButtonChoice.GetComponent<OptionsChoices>().SetUp(this, choice.nextLine, choice.choiceText);
-
-                    
-                    
                 }
 
                 
