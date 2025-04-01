@@ -40,7 +40,7 @@ public class Interact : MonoBehaviour
 
     private void Interaction()
     {
-        Debug.Log("Interacting");
+        //Debug.Log("Interacting");
         //lets run every function in my list!
         OnInteract.Invoke(); //trigger unity event
     }

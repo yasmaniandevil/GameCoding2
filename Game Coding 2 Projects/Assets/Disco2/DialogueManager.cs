@@ -55,7 +55,7 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("Current Line" + currentLine);
         //ShowLine(currentLine);
         StartCoroutine(DisplayDialogue(currentLine));
-        Debug.Log("called corotine on CALL");
+        
 
 
         //enables continue button when dialogue begins
@@ -110,7 +110,11 @@ public class DialogueManager : MonoBehaviour
                 if (!string.IsNullOrEmpty(choice.requiredStat))
                 {
                     //checks player stats and returns the current value (stored in playerStat)
-                    int playerStat = GetPlayerStatValue(choice.requiredStat);
+                    //@@@@!!!!%%%MAYBE DO THIS ONE FIRST THE HELPER FUNCTION?
+                    //int playerStat = GetPlayerStatValue(choice.requiredStat);
+
+
+                    int playerStat = PlayerStats.Instance.GetStat(choice.requiredStat);
                     //checks if it is greater than or equal to required value
                     //if it is, it sets it to true
                     meetsRequirment = playerStat >= choice.requiredValue;
@@ -130,6 +134,14 @@ public class DialogueManager : MonoBehaviour
 
                 //grab the button component of the choice button
                 Button buttonComp = newButtonChoice.GetComponent<Button>();
+                buttonComp.onClick.AddListener(() =>
+                {
+                    //if there is reward increase stat
+                    if (!string.IsNullOrEmpty(choice.rewardStat))
+                    {
+                        PlayerStats.Instance.IncreaseStat(choice.rewardStat, choice.rewardAmt);
+                    }
+                });
                 //it is interactable depending on if meets requirment is true or false
                 buttonComp.interactable = meetsRequirment;
 
@@ -143,11 +155,10 @@ public class DialogueManager : MonoBehaviour
                     });*/
 
                     newButtonChoice.GetComponent<OptionsChoices>().SetUp(this, choice.nextLine, choice.choiceText);
+
                     
                     
                 }
-                
-                
 
                 
             }
@@ -182,9 +193,9 @@ public class DialogueManager : MonoBehaviour
     //helper function returns an int
     //takes name of stat (logic etc) and returns the players current value for that stat
     //we make a function so dialogue logic doesnt need to directly access player states it just calls this method
-    int GetPlayerStatValue(string statName)
+    /*int GetPlayerStatValue(string statName)
     {
-        switch(statName.ToLower())
+        switch(statName)
         {
             case "charisma": return PlayerStats.Instance.charisma;
             case "logic": return PlayerStats.Instance.logic;
@@ -192,8 +203,20 @@ public class DialogueManager : MonoBehaviour
             default: return 0;
 
         }
-    }
+    }*/
 
+    /*void ExampleFunction()
+    {
+        if(PlayerStats.Instance.GetStat("Logic") >= 2)
+        {
+            Debug.Log("Do something");
+        }
+
+        if (PlayerStats.Instance.stats.ContainsKey("Empathy"))
+        {
+            
+        }
+    }*/
 
     
 }

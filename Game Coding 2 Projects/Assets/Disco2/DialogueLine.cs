@@ -28,5 +28,9 @@ using UnityEngine;
 
         public string requiredStat;
         public int requiredValue;
+
+        //second part of lesson
+        public string rewardStat;
+        public int rewardAmt;
     }
 
