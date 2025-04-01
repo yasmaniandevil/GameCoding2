@@ -98,20 +98,27 @@ public class DialogueManager : MonoBehaviour
             {
                 //create a button
                 GameObject newButtonChoice = Instantiate(choiceButtonPrefab, choiceContainer);
-                //set buttons text to say what the choice text is
+                //grab the text on button
                 TextMeshProUGUI buttonText = newButtonChoice.GetComponentInChildren<TextMeshProUGUI>();
                 //newButtonChoice.GetComponentInChildren<TextMeshProUGUI>().text = choice.choiceText;
                 
-
+                //create a bool set to true
+                //meet requirment is always true unless the required stat string isnt empty then we check it
                 bool meetsRequirment = true;
+                //if requried stat field is not empty
+                //if there is no required stat we skip this if statement
                 if (!string.IsNullOrEmpty(choice.requiredStat))
                 {
-                    int payerStat = GetPlayerStatValue(choice.requiredStat);
-                    meetsRequirment = payerStat >= choice.requiredValue;
+                    //checks player stats and returns the current value (stored in playerStat)
+                    int playerStat = GetPlayerStatValue(choice.requiredStat);
+                    //checks if it is greater than or equal to required value
+                    //if it is, it sets it to true
+                    meetsRequirment = playerStat >= choice.requiredValue;
                 }
                 
                 //update button text
                 buttonText.text = choice.choiceText;
+                //if it doesnt meet requirment
                 if (!meetsRequirment)
                 {
                     //add red and say the requried stat and amount
@@ -121,21 +128,26 @@ public class DialogueManager : MonoBehaviour
 
                 }
 
+                //grab the button component of the choice button
                 Button buttonComp = newButtonChoice.GetComponent<Button>();
+                //it is interactable depending on if meets requirment is true or false
                 buttonComp.interactable = meetsRequirment;
 
-                
+                //if meet requirment or no stat check is true
                 if (meetsRequirment)
                 {
-                    newButtonChoice.GetComponent<Button>().onClick.AddListener(() =>
+                    //let us click new button
+                    /*newButtonChoice.GetComponent<Button>().onClick.AddListener(() =>
                     {
                         UpdateDialogue(choice.nextLine);
-                    });
-                    Debug.Log("meets requirment");
+                    });*/
+
+                    newButtonChoice.GetComponent<OptionsChoices>().SetUp(this, choice.nextLine, choice.choiceText);
+                    
+                    
                 }
                 
                 
-                //newButtonChoice.GetComponent<OptionsChoices>().SetUp(this, choice.nextLine, choice.choiceText);
 
                 
             }
@@ -168,6 +180,8 @@ public class DialogueManager : MonoBehaviour
     }
 
     //helper function returns an int
+    //takes name of stat (logic etc) and returns the players current value for that stat
+    //we make a function so dialogue logic doesnt need to directly access player states it just calls this method
     int GetPlayerStatValue(string statName)
     {
         switch(statName.ToLower())
