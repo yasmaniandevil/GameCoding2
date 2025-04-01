@@ -16,10 +16,14 @@ MonoBehaviour:
   - start of line 3
   - 3
   - end of line 3
-  isPlayer: 0
   nextLine: {fileID: 0}
   choices:
   - choiceText: Good
     nextLine: {fileID: 11400000, guid: 9636a5ba75a2475488fa28089b4412fe, type: 2}
+    requiredStat: charisma
+    requiredValue: 2
   - choiceText: Bad
     nextLine: {fileID: 11400000, guid: d68f335b00bbfdb499c3b7844c013683, type: 2}
+    requiredStat: logic
+    requiredValue: 2
+  isPlayer: 0

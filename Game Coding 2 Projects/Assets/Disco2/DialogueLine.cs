@@ -16,7 +16,7 @@ using UnityEngine;
 
         //for later
         public bool isPlayer;
-        
+
         //you can add a unity event UnityEvent OnChoose
     }
     //each individual choice a player can make
@@ -25,5 +25,8 @@ using UnityEngine;
     {
         public string choiceText; //what the choice says
         public DialogueLine nextLine; //what happens if you pick it
+
+        public string requiredStat;
+        public int requiredValue;
     }
 

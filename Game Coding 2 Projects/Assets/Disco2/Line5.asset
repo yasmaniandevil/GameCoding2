@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueLinesList:
   - start of line 5
-  - end of line 6
-  isPlayer: 0
-  nextLine: {fileID: 11400000, guid: 59493e9e55df3894fa56e50f1f32b1a7, type: 2}
+  - 'end of line 5
+
+'
+  nextLine: {fileID: 11400000, guid: b5cf97c1557c8c04f8ef1e22d9cb6f31, type: 2}
   choices: []
+  isPlayer: 0

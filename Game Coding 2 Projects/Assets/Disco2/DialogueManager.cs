@@ -48,7 +48,6 @@ public class DialogueManager : MonoBehaviour
 
     public void UpdateDialogue(DialogueLine line)
     {
-        
 
         //{{{!!!@!!!FIRST THIS
         //sets current line to the passed in line
@@ -100,10 +99,43 @@ public class DialogueManager : MonoBehaviour
                 //create a button
                 GameObject newButtonChoice = Instantiate(choiceButtonPrefab, choiceContainer);
                 //set buttons text to say what the choice text is
-                //btnObj.GetComponentInChildren<TextMeshProUGUI>().text = choice.choiceText;
-                newButtonChoice.GetComponent<OptionsChoices>().SetUp(this, choice.nextLine, choice.choiceText);
-                Debug.Log("choice text" + choice.nextLine + choice.choiceText);
-                Debug.Log("choice was clicked");
+                TextMeshProUGUI buttonText = newButtonChoice.GetComponentInChildren<TextMeshProUGUI>();
+                //newButtonChoice.GetComponentInChildren<TextMeshProUGUI>().text = choice.choiceText;
+                
+
+                bool meetsRequirment = true;
+                if (!string.IsNullOrEmpty(choice.requiredStat))
+                {
+                    int payerStat = GetPlayerStatValue(choice.requiredStat);
+                    meetsRequirment = payerStat >= choice.requiredValue;
+                }
+                
+                //update button text
+                buttonText.text = choice.choiceText;
+                if (!meetsRequirment)
+                {
+                    //add red and say the requried stat and amount
+                    //buttonText.text += $" <color=red>({choice.requiredStat} : {choice.requiredValue})</color>";
+                    buttonText.text += "<color=red>" + choice.requiredStat + ": " + choice.requiredValue + "</color>";
+                    
+
+                }
+
+                Button buttonComp = newButtonChoice.GetComponent<Button>();
+                buttonComp.interactable = meetsRequirment;
+
+                
+                if (meetsRequirment)
+                {
+                    newButtonChoice.GetComponent<Button>().onClick.AddListener(() =>
+                    {
+                        UpdateDialogue(choice.nextLine);
+                    });
+                    Debug.Log("meets requirment");
+                }
+                
+                
+                //newButtonChoice.GetComponent<OptionsChoices>().SetUp(this, choice.nextLine, choice.choiceText);
 
                 
             }
@@ -133,6 +165,19 @@ public class DialogueManager : MonoBehaviour
             });
         }
         
+    }
+
+    //helper function returns an int
+    int GetPlayerStatValue(string statName)
+    {
+        switch(statName.ToLower())
+        {
+            case "charisma": return PlayerStats.Instance.charisma;
+            case "logic": return PlayerStats.Instance.logic;
+            case "empathy": return PlayerStats.Instance.empathy;
+            default: return 0;
+
+        }
     }
 
 

@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Line2
   m_EditorClassIdentifier: 
   dialogueLinesList:
-  - bitch
-  - ass
-  - end of line 2
-  isPlayer: 0
+  - line 2
   nextLine: {fileID: 11400000, guid: 384106f5f246948c6868cb516043de9a, type: 2}
   choices: []
+  isPlayer: 0
