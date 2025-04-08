@@ -23,16 +23,16 @@ public class DialogueManager : MonoBehaviour
     //a button that appears when they are no choices and you can continue to next line
     public Button continueButton;
 
-    //keeps track of dialogue line currently showing
-    DialogueLine currentLine;
-
 
     //later
     bool dialogueRunning = false;
     public bool endConversation;
     public UnityEvent onEndConversation;
+
+    public ScrollRect chatScrollRect;
    
     //calls when interaction begins (trigger or key)
+    //public trigger function only called at begining
     public void StartingDialogue()
     {
         //later in lesson
@@ -46,15 +46,17 @@ public class DialogueManager : MonoBehaviour
         
     }
 
+    //call anytime we want to jmp to a new line of dialogue
+    //reusable for every next line every choice
     public void UpdateDialogue(DialogueLine line)
     {
-
+        //passes in startingline from inspector as line
         //{{{!!!@!!!FIRST THIS
         //sets current line to the passed in line
-        currentLine = line;
-        Debug.Log("Current Line" + currentLine);
-        //ShowLine(currentLine);
-        StartCoroutine(DisplayDialogue(currentLine));
+        startingLine = line;
+        Debug.Log("Current Line" + startingLine);
+        //passing in starting line in our coroutine
+        StartCoroutine(DisplayDialogue(startingLine));
         
 
 
@@ -66,20 +68,29 @@ public class DialogueManager : MonoBehaviour
     IEnumerator DisplayDialogue(DialogueLine line)
     {
         
-        foreach (string dialogueLine in currentLine.dialogueLinesList)
+        foreach (string dialogueLine in line.dialogueLinesList)
         {
             //make a new copy of the button
             GameObject dialogueText = Instantiate(textLinePrefab, chatContent);
             //TextMeshProUGUI dialogueTextVar = GetComponentInChildren<TextMeshProUGUI>();
             TextMeshProUGUI dialogueTextVar = dialogueText.GetComponent<TextMeshProUGUI>();
             //set the text of it to whatever string we are currently looping over
-            dialogueTextVar.text = dialogueLine;
+            //dialogueTextVar.text = dialogueLine;
 
             //later in lesson
             if (!string.IsNullOrEmpty(line.speakerName))
             {
+                dialogueTextVar.text = $"<b>{line.speakerName}:</b>";
+            }
+            else
+            {
+                dialogueTextVar.text = "";
+            }
 
-                dialogueTextVar.text = $"<b>{line.speakerName}:</b> {dialogueLine}";
+            foreach(char letter in dialogueLine.ToCharArray())
+            {
+                dialogueTextVar.text += letter;
+                yield return new WaitForSeconds(.05f);
             }
             yield return new WaitForSeconds(1f);
 
@@ -87,13 +98,13 @@ public class DialogueManager : MonoBehaviour
 
         //ensure continue button is below all chat
         continueButton.transform.SetAsLastSibling();
+        choiceContainer.transform.SetAsLastSibling();
+        //button choices appear after latest chat line
 
         // Clear old choice buttons so they dont stack
         foreach (Transform child in choiceContainer) Destroy(child.gameObject);
         //hides continue button by default
         continueButton.gameObject.SetActive(false);
-        //button choices appear after latest chat line
-        choiceContainer.transform.SetAsLastSibling();
 
         //display choices or continue button
         //does this dialogue line even have choices? are there any options in the list?
@@ -192,7 +203,16 @@ public class DialogueManager : MonoBehaviour
                 
             });
         }
+
+        ScrollToBotton();
         
+    }
+
+    void ScrollToBotton()
+    {
+        Canvas.ForceUpdateCanvases(); //ensures layout is updated before we scroll
+        chatScrollRect.verticalNormalizedPosition = 0; //0 for bottom 1 for top
+        Canvas.ForceUpdateCanvases(); //make sure scroll sticks
     }
 
     //helper function returns an int
