@@ -32,6 +32,7 @@ public class DialogueManager : MonoBehaviour
 
     public ScrollRect chatScrollRect;
     public AudioSource textBlipSound;
+    private string currentSpeaker;
    
     //calls when interaction begins (trigger or key)
     //public trigger function only called at begining
@@ -69,58 +70,19 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator DisplayDialogue(DialogueLine line)
     {
+        SetUpSpeakerUI(line);
         
         foreach (string dialogueLine in line.dialogueLinesList)
         {
-            //make a new copy of the button
-            GameObject dialogueText = Instantiate(textLinePrefab, chatContent);
-            //TextMeshProUGUI dialogueTextVar = GetComponentInChildren<TextMeshProUGUI>();
-            TextMeshProUGUI dialogueTextVar = dialogueText.GetComponent<TextMeshProUGUI>();
-            //set the text of it to whatever string we are currently looping over
-            //dialogueTextVar.text = dialogueLine;
 
-            //later in lesson
-            if (!string.IsNullOrEmpty(line.speakerName))
-            {
-                dialogueTextVar.text = $"<b>{line.speakerName}:</b>";
-            }
-            else
-            {
-                dialogueTextVar.text = "";
-            }
 
-            foreach(char letter in dialogueLine.ToCharArray())
-            {
-                dialogueTextVar.text += letter;
-                yield return new WaitForSeconds(.02f);
 
-            }
+            yield return StartCoroutine(TypeDialogue(dialogueLine, line.speakerName, line.speakerSprite));
             
-            if(textBlipSound != null)
-            {
-                textBlipSound.Play();
-            }
+            
+            
 
-            Image speakerImage = dialogueText.GetComponentInChildren<Image>();
-            //ShowSpeakerSprite(speakerImage, line.speakerSprite);
-            if(speakerImage != null)
-            {
-                Debug.Log("Does this work?");
-                
-
-                if(line.speakerSprite != null)
-                {
-                    speakerImage.sprite = line.speakerSprite;
-                    speakerImage.enabled = true;
-                    Debug.Log("TURN IOT ONNNFDSFSD");
-                }
-                else
-                {
-                    speakerImage.enabled= false;
-                    
-                }
-            }
-
+            
 
                 //pause between the lines
                 yield return new WaitForSeconds(1f);
@@ -246,24 +208,54 @@ public class DialogueManager : MonoBehaviour
         Canvas.ForceUpdateCanvases(); //make sure scroll sticks
     }
 
-    void ShowSpeakerSprite(Image speakerImage, Sprite speakerSprite)
+    
+
+    void SetUpSpeakerUI(DialogueLine line)
     {
-        //if we have no image assigned
-        if ((speakerImage == null)) return;
+        currentSpeaker = string.IsNullOrEmpty(line.speakerName) ? "" : $"<b>{line.speakerName}:</b> ";
+
+        Image speakerImage = textLinePrefab.GetComponentInChildren<Image>();
         
-       
-        //if the sprite exists
-        if (speakerSprite != null)
+        if (speakerImage != null)
         {
-            //assign the sprite property of the image to our sprite
-            speakerImage.sprite = speakerSprite;
-            speakerImage.enabled = true;
-        }
-        else
-        {
-            speakerImage.enabled = false;
+            Debug.Log("Does this work?");
+
+
+            if (line.speakerSprite != null)
+            {
+                speakerImage.sprite = line.speakerSprite;
+                speakerImage.enabled = true;
+                Debug.Log("TURN IOT ONNNFDSFSD");
+            }
+            else
+            {
+                speakerImage.enabled = false;
+
+            }
         }
 
+    }
+
+    IEnumerator TypeDialogue(string diaLine, string speakerName, Sprite speakerSprite)
+    {
+        //make a new copy of the button
+        GameObject dialogueText = Instantiate(textLinePrefab, chatContent);
+        //TextMeshProUGUI dialogueTextVar = GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI dialogueTextVar = dialogueText.GetComponent<TextMeshProUGUI>();
+        //set the text of it to whatever string we are currently looping over
+        dialogueTextVar.text = currentSpeaker;
+
+        foreach (char letter in diaLine.ToCharArray())
+        {
+            dialogueTextVar.text += letter;
+            yield return new WaitForSeconds(.02f);
+
+        }
+
+        if (textBlipSound != null)
+        {
+            textBlipSound.Play();
+        }
     }
 
     //helper function returns an int
