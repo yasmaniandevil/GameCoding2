@@ -6,15 +6,19 @@ using UnityEngine;
 //SO is a data container, allows you to store large quantites of shared data independent from script instances
     public class DialogueLine : ScriptableObject
     {
-        //list of text to show
+        //who is speaking
+        public string speakerName;
+
+        public Sprite speakerSprite;
+
+        //all the sentences
         [TextArea]public List<string> dialogueLinesList = new List<string>();
 
-        //add last in lesson
-        public string speakerName;
 
         //next line if there are no choices
         public DialogueLine nextLine;
         //choices if there are any
+        //multiple choices are store inside of array
         public DialogueChoice[] choices;
 
         //for later
@@ -23,6 +27,8 @@ using UnityEngine;
         //you can add a unity event UnityEvent OnChoose
     }
     //each individual choice a player can make
+    //we have this seperate class inside SO for when we want to have choices
+    //a choice is its own object bc it can contain, choice text, path it leads to (next line) optional stat and reward
     [System.Serializable]
     public class DialogueChoice
     {
@@ -36,4 +42,6 @@ using UnityEngine;
         public string rewardStat;
         public int rewardAmt;
     }
+
+
 

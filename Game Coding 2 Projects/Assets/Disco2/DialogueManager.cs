@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class DialogueManager : MonoBehaviour
     public UnityEvent onEndConversation;
 
     public ScrollRect chatScrollRect;
+    public AudioSource textBlipSound;
    
     //calls when interaction begins (trigger or key)
     //public trigger function only called at begining
@@ -90,9 +92,38 @@ public class DialogueManager : MonoBehaviour
             foreach(char letter in dialogueLine.ToCharArray())
             {
                 dialogueTextVar.text += letter;
-                yield return new WaitForSeconds(.05f);
+                yield return new WaitForSeconds(.02f);
+
             }
-            yield return new WaitForSeconds(1f);
+            
+            if(textBlipSound != null)
+            {
+                textBlipSound.Play();
+            }
+
+            Image speakerImage = dialogueText.GetComponentInChildren<Image>();
+            //ShowSpeakerSprite(speakerImage, line.speakerSprite);
+            if(speakerImage != null)
+            {
+                Debug.Log("Does this work?");
+                
+
+                if(line.speakerSprite != null)
+                {
+                    speakerImage.sprite = line.speakerSprite;
+                    speakerImage.enabled = true;
+                    Debug.Log("TURN IOT ONNNFDSFSD");
+                }
+                else
+                {
+                    speakerImage.enabled= false;
+                    
+                }
+            }
+
+
+                //pause between the lines
+                yield return new WaitForSeconds(1f);
 
         }
 
@@ -215,6 +246,26 @@ public class DialogueManager : MonoBehaviour
         Canvas.ForceUpdateCanvases(); //make sure scroll sticks
     }
 
+    void ShowSpeakerSprite(Image speakerImage, Sprite speakerSprite)
+    {
+        //if we have no image assigned
+        if ((speakerImage == null)) return;
+        
+       
+        //if the sprite exists
+        if (speakerSprite != null)
+        {
+            //assign the sprite property of the image to our sprite
+            speakerImage.sprite = speakerSprite;
+            speakerImage.enabled = true;
+        }
+        else
+        {
+            speakerImage.enabled = false;
+        }
+
+    }
+
     //helper function returns an int
     //takes name of stat (logic etc) and returns the players current value for that stat
     //we make a function so dialogue logic doesnt need to directly access player states it just calls this method
@@ -243,5 +294,19 @@ public class DialogueManager : MonoBehaviour
         }
     }*/
 
+    //if speaker name is bob then do this sound instead
+    /*make two new var for the clips AudioClip 
+    if (audioSource != null)
+{
+    if (line.speakerName == "Player")
+    {
+        audioSource.clip = playerVoiceClip;
+    }
+    else
+    {
+        audioSource.clip = npcVoiceClip;
+    }
     
+    audioSource.Play();
+} */
 }

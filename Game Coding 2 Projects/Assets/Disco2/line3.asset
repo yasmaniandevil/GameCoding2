@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee00c01a7a194d5ba47af48b8a30eac, type: 3}
   m_Name: line3
   m_EditorClassIdentifier: 
+  speakerName: Jenny
+  speakerSprite: {fileID: 0}
   dialogueLinesList:
   - start of line 3
   - 3
