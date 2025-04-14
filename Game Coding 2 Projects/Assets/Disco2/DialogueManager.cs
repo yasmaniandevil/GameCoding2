@@ -127,6 +127,16 @@ public class DialogueManager : MonoBehaviour
                     //if it is, it sets it to true
                     meetsRequirment = playerStat >= choice.requiredValue;
                 }
+
+                //check if they unlocked this path by seeing if they have the required flag
+                if (!string.IsNullOrEmpty(choice.requiredFlag))
+                {
+                    //keep meetsrequirment true if it is already true and they have the required flag
+                    meetsRequirment &= PlayerStats.Instance.HasChoiceFlag(choice.requiredFlag);
+                    //above is shorthand for
+                    //meetsRequirment = meetsRequirment && PlayerStats.Instance.HasChoiceFlag(choice.requiredFlag);
+                    Debug.Log("required flag missing can't move forward in this path");
+                }
                 
                 //update button text
                 buttonText.text = choice.choiceText;
@@ -148,6 +158,13 @@ public class DialogueManager : MonoBehaviour
                     if (!string.IsNullOrEmpty(choice.rewardStat))
                     {
                         PlayerStats.Instance.IncreaseStat(choice.rewardStat, choice.rewardAmt);
+                    }
+
+                    //if there is a reward flag add reward path
+                    if (!string.IsNullOrEmpty(choice.rewardFlag))
+                    {
+                        PlayerStats.Instance.AddChoiceFlag(choice.rewardFlag);
+                        Debug.Log("unlocked new path " + choice.rewardFlag);
                     }
                 });
                 //it is interactable depending on if meets requirment is true or false

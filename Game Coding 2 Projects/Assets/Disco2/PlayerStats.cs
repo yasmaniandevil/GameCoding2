@@ -6,6 +6,8 @@ public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance;
 
+    public HashSet<string> choiceFlags = new HashSet<string>();
+
     //DO THIS FIRST
     //public int charisma = 3;
     //public int logic = 2;
@@ -38,6 +40,11 @@ public class PlayerStats : MonoBehaviour
         stats["Charisma"] = 2;
     }
 
+    public void Update()
+    {
+        //Debug.Log("choice flags: " + choiceFlags.ToString());
+    }
+
     public int GetStat(string statName)
     {
         if(stats.ContainsKey(statName)) 
@@ -61,5 +68,17 @@ public class PlayerStats : MonoBehaviour
         stats[_statName] += amount;
 
         Debug.Log($"Increased {_statName} by {amount}. New Value {stats[_statName]}");
+    }
+
+
+    public void AddChoiceFlag(string flagName)
+    {
+        choiceFlags.Add(flagName);
+        
+    }
+
+    public bool HasChoiceFlag(string flagName)
+    {
+        return choiceFlags.Contains(flagName);
     }
 }

@@ -38,5 +38,10 @@ using UnityEngine;
         //second part of lesson
         public string rewardStat;
         public int rewardAmt;
+
+        //flags
+        public string requiredFlag;
+        public string rewardFlag;
+
     }
 
