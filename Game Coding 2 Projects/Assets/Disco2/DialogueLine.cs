@@ -6,11 +6,14 @@ using UnityEngine;
 //SO is a data container, allows you to store large quantites of shared data independent from script instances
     public class DialogueLine : ScriptableObject
     {
+        [Header("Editor Only")]
+        public Vector2 editorPosition;
+
+        public string speakerName;
         //list of text to show
         [TextArea]public List<string> dialogueLinesList = new List<string>();
 
-        //add last in lesson
-        public string speakerName;
+        
 
         //next line if there are no choices
         public DialogueLine nextLine;
