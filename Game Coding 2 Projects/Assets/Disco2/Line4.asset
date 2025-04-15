@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Line4
   m_EditorClassIdentifier: 
   editorPosition: {x: 2, y: 6}
-  speakerName: 
   dialogueLinesList:
   - where are we
   - df
   - end of line 4
+  characters: 4
   nextLine: {fileID: 11400000, guid: 7f5bff98814337443aababa3c69ccfca, type: 2}
   choices: []
   isPlayer: 0

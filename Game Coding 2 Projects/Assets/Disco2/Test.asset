@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   editorPosition: {x: 0, y: 0}
-  speakerName: 
   dialogueLinesList: []
-  characters: 1
+  characters: 0
   nextLine: {fileID: 0}
   choices: []
   isPlayer: 0

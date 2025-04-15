@@ -853,6 +853,7 @@ MonoBehaviour:
   onEndConversation:
     m_PersistentCalls:
       m_Calls: []
+  dialogueHistory: []
 --- !u!4 &963148066
 Transform:
   m_ObjectHideFlags: 0

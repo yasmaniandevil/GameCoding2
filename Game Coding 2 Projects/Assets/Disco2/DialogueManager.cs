@@ -143,26 +143,23 @@ public class DialogueManager : MonoBehaviour
                 break;
             case DialogueLine.Characters.beth:
                 Debug.Log("it is beth");
-                string name = DialogueLine.Characters.beth.ToString();
                 formattedLine = $"<b> Beth: </b> {_dialogueLine}";
-                //dialogueTextVar.text = $"<b> {name}: </b>  {formattedLine}";
-                Debug.Log("formatted line: " + formattedLine);
-                //Debug.Log(dialogueTextVar.text = $"<b> {name}: </b>  {_dialogueLine}");
+                dialogueTextVar.text = formattedLine;
                 dialogueTextVar.color = Color.red;
+                Debug.Log("formatted line: " + formattedLine);
                 break;
             case DialogueLine.Characters.tori:
-                string tori = DialogueLine.Characters.tori.ToString();
-                dialogueTextVar.text = $"<b> {tori}: </b>  {formattedLine}";
-                Debug.Log("formatted line: " + formattedLine);
-                //Debug.Log(dialogueTextVar.text = $"<b> {tori}: </b>  {formattedLine}");
+                formattedLine = $"<b> tori: </b> {_dialogueLine}";
+                dialogueTextVar.text = formattedLine;
                 dialogueTextVar.color = Color.blue;
+                Debug.Log("formatted line: " + formattedLine);
                 break;
             case DialogueLine.Characters.me:
                 string me = DialogueLine.Characters.me.ToString();
-                dialogueTextVar.text = $"<b> {me}: </b>  {formattedLine}";
-                Debug.Log("formatted line: " + formattedLine);
-                //Debug.Log(dialogueTextVar.text = $"<b> {me}: </b>  {formattedLine}");
+                formattedLine = $"<b> {me}: </b>  {_dialogueLine}";
+                dialogueTextVar.text = formattedLine;
                 dialogueTextVar.color = Color.yellow;
+                Debug.Log("formatted line: " + formattedLine);
                 break;
             case DialogueLine.Characters.you:
                 break;
