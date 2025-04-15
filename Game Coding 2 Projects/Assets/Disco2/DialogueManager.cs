@@ -175,7 +175,7 @@ public class DialogueManager : MonoBehaviour
 
                     if (meetsRequirment)
                     {
-                        Debug.Log($"player starts {choice.requiredFlag} path");
+                        Debug.Log($"player starts on {choice.requiredFlag} path");
                     }
                 }
 
@@ -227,6 +227,8 @@ public class DialogueManager : MonoBehaviour
             }
         }
     }
+
+    
 
     //helper function returns an int
     //takes name of stat (logic etc) and returns the players current value for that stat
