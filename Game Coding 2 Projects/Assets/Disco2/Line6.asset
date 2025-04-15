@@ -12,12 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee00c01a7a194d5ba47af48b8a30eac, type: 3}
   m_Name: Line6
   m_EditorClassIdentifier: 
+  editorPosition: {x: 2, y: 9}
+  speakerName: 
   dialogueLinesList:
   - why
-  isPlayer: 0
   nextLine: {fileID: 0}
   choices:
-  - choiceText: You think so?
-    nextLine: {fileID: 11400000}
-  - choiceText: But its nice right!
+  - choiceText: 
+    nextLine: {fileID: 11400000, guid: 9636a5ba75a2475488fa28089b4412fe, type: 2}
+    requiredStat: 
+    requiredValue: 0
+    rewardStat: 
+    rewardAmt: 0
+    requiredFlag: 
+    rewardFlag: 
+  - choiceText: 
     nextLine: {fileID: 11400000, guid: d68f335b00bbfdb499c3b7844c013683, type: 2}
+    requiredStat: 
+    requiredValue: 0
+    rewardStat: 
+    rewardAmt: 0
+    requiredFlag: 
+    rewardFlag: 
+  isPlayer: 0

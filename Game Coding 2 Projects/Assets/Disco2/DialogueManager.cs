@@ -7,9 +7,9 @@ using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
 {
-    
+
     //reference to our scriptable obj
-    public DialogueLine startingLine;
+    public DialogueLine currentLine;
 
     //content of scroll view
     public Transform chatContent; //where messages will be placed
@@ -23,10 +23,7 @@ public class DialogueManager : MonoBehaviour
     //a button that appears when they are no choices and you can continue to next line
     public Button continueButton;
 
-    //keeps track of dialogue line currently showing
-    DialogueLine currentLine;
-
-
+   
     //later
     bool dialogueRunning = false;
     public bool endConversation;
@@ -41,7 +38,7 @@ public class DialogueManager : MonoBehaviour
         
         //FIRST
         //starts dialogue flow by calling update dialogue and passing in the first line
-        UpdateDialogue(startingLine);
+        UpdateDialogue(currentLine);
 
         
     }
@@ -59,7 +56,7 @@ public class DialogueManager : MonoBehaviour
 
 
         //enables continue button when dialogue begins
-        continueButton.enabled = true;
+        
     }
 
 
@@ -98,6 +95,41 @@ public class DialogueManager : MonoBehaviour
         //display choices or continue button
         //does this dialogue line even have choices? are there any options in the list?
         //if yes continue
+        RunChoices(currentLine);
+        //if there are no choices but theres next line show continue button
+        //remove all listeners ensures we dont accidently stack duplicate listeners
+        //clicking the button triggers the next line
+        ContinueButton(currentLine);
+        
+    }
+
+    public void ContinueButton(DialogueLine line)
+    {
+        if(line.nextLine != null)
+        {
+            continueButton.gameObject.SetActive(true);
+            //clear everything out that was set to happen when the button was clicked
+            //reusing the same button for diff lines if we dont clear it clicking button could trigger old lines
+            continueButton.onClick.RemoveAllListeners();
+            //when this button is clicked run this code
+            continueButton.onClick.AddListener(() =>
+            {
+                UpdateDialogue(line.nextLine); //continue to next line
+                continueButton.gameObject.SetActive(false); //hide button after clicking
+
+                //later in lesson to ensure ending conversation
+                if (line.choices == null && line.nextLine == null)
+                {
+                    onEndConversation.Invoke();
+                    dialogueRunning = false;
+                }
+
+            });
+        }
+    }
+
+    public void RunChoices(DialogueLine line)
+    {
         if (line.choices != null && line.choices.Length > 0)
         {
             //for every choice attached to the line
@@ -108,7 +140,7 @@ public class DialogueManager : MonoBehaviour
                 //grab the text on button
                 TextMeshProUGUI buttonText = newButtonChoice.GetComponentInChildren<TextMeshProUGUI>();
                 //newButtonChoice.GetComponentInChildren<TextMeshProUGUI>().text = choice.choiceText;
-                
+
                 //create a bool set to true
                 //meet requirment is always true unless the required stat string isnt empty then we check it
                 bool meetsRequirment = true;
@@ -135,9 +167,18 @@ public class DialogueManager : MonoBehaviour
                     meetsRequirment &= PlayerStats.Instance.HasChoiceFlag(choice.requiredFlag);
                     //above is shorthand for
                     //meetsRequirment = meetsRequirment && PlayerStats.Instance.HasChoiceFlag(choice.requiredFlag);
-                    Debug.Log("required flag missing can't move forward in this path");
+                    if (!meetsRequirment)
+                    {
+                        Debug.Log($"player has not unlocked {choice.requiredFlag} path");
+
+                    }
+
+                    if (meetsRequirment)
+                    {
+                        Debug.Log($"player starts {choice.requiredFlag} path");
+                    }
                 }
-                
+
                 //update button text
                 buttonText.text = choice.choiceText;
                 //if it doesnt meet requirment
@@ -146,7 +187,7 @@ public class DialogueManager : MonoBehaviour
                     //add red and say the requried stat and amount
                     //buttonText.text += $" <color=red>({choice.requiredStat} : {choice.requiredValue})</color>";
                     buttonText.text += "<color=red>" + choice.requiredStat + ": " + choice.requiredValue + "</color>";
-                    
+
 
                 }
 
@@ -182,34 +223,9 @@ public class DialogueManager : MonoBehaviour
                     newButtonChoice.GetComponent<OptionsChoices>().SetUp(this, choice.nextLine, choice.choiceText);
                 }
 
-                
+
             }
         }
-        //if there are no choices but theres next line show continue button
-        //remove all listeners ensures we dont accidently stack duplicate listeners
-        //clicking the button triggers the next line
-        else if (line.nextLine != null)
-        {
-            continueButton.gameObject.SetActive(true);
-            //clear everything out that was set to happen when the button was clicked
-            //reusing the same button for diff lines if we dont clear it clicking button could trigger old lines
-            continueButton.onClick.RemoveAllListeners();
-            //when this button is clicked run this code
-            continueButton.onClick.AddListener(() =>
-            {
-                UpdateDialogue(line.nextLine); //continue to next line
-                continueButton.gameObject.SetActive(false); //hide button after clicking
-
-                //later in lesson to ensure ending conversation
-                if(line.choices == null && line.nextLine == null)
-                {
-                    onEndConversation.Invoke();
-                    dialogueRunning = false;
-                }
-                
-            });
-        }
-        
     }
 
     //helper function returns an int

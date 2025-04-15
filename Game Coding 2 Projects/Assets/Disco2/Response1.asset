@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee00c01a7a194d5ba47af48b8a30eac, type: 3}
   m_Name: Response1
   m_EditorClassIdentifier: 
+  editorPosition: {x: -3, y: 12}
+  speakerName: 
   dialogueLinesList:
   - Path 1
-  isPlayer: 0
-  nextLine: {fileID: 11400000, guid: 09de9b0ff1dc2416cb78ed9dcc9d0a48, type: 2}
+  nextLine: {fileID: 11400000, guid: 7bcd586f98ff0bb4ba1441662efaeff8, type: 2}
   choices: []
+  isPlayer: 0
