@@ -15,6 +15,7 @@ MonoBehaviour:
   editorPosition: {x: 0, y: 0}
   speakerName: 
   dialogueLinesList: []
+  characters: 1
   nextLine: {fileID: 0}
   choices: []
   isPlayer: 0

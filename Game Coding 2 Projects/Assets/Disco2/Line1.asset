@@ -17,6 +17,7 @@ MonoBehaviour:
   dialogueLinesList:
   - hi
   - how
+  characters: 0
   nextLine: {fileID: 0}
   choices:
   - choiceText: What

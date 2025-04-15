@@ -23,7 +23,8 @@ public class DialogueManager : MonoBehaviour
     //a button that appears when they are no choices and you can continue to next line
     public Button continueButton;
 
-   
+    private TextMeshProUGUI dialogueTextVar;
+
     //later
     bool dialogueRunning = false;
     public bool endConversation;
@@ -63,22 +64,37 @@ public class DialogueManager : MonoBehaviour
     IEnumerator DisplayDialogue(DialogueLine line)
     {
         
-        foreach (string dialogueLine in currentLine.dialogueLinesList)
+        foreach (string dialogueLineString in currentLine.dialogueLinesList)
         {
             //make a new copy of the button
             GameObject dialogueText = Instantiate(textLinePrefab, chatContent);
             //TextMeshProUGUI dialogueTextVar = GetComponentInChildren<TextMeshProUGUI>();
-            TextMeshProUGUI dialogueTextVar = dialogueText.GetComponent<TextMeshProUGUI>();
+            dialogueTextVar = dialogueText.GetComponent<TextMeshProUGUI>();
+
+            //character dialogue option
+            /*if (line.characters != DialogueLine.Characters.blank)
+            {
+                SwitchCharacters(currentLine, dialogueLineString);
+            }*/
+
+            SwitchCharacters(currentLine, dialogueLineString);
+
             //set the text of it to whatever string we are currently looping over
-            dialogueTextVar.text = dialogueLine;
+            //dialogueTextVar.text = dialogueLineString;
 
             //later in lesson
             if (!string.IsNullOrEmpty(line.speakerName))
             {
 
-                dialogueTextVar.text = $"<b>{line.speakerName}:</b> {dialogueLine}";
+                //dialogueTextVar.text = $"<b>{line.speakerName}:</b> {dialogueLine}";
             }
+
+            
+
             yield return new WaitForSeconds(1f);
+
+            
+            
 
         }
 
@@ -125,6 +141,41 @@ public class DialogueManager : MonoBehaviour
                 }
 
             });
+        }
+    }
+
+    public void SwitchCharacters(DialogueLine line, string _dialogueLine)
+    {
+        switch (line.characters)
+        {
+            case DialogueLine.Characters.blank:
+                Debug.Log("Does nothing");
+                dialogueTextVar.text = _dialogueLine;
+                break;
+            case DialogueLine.Characters.beth:
+                Debug.Log("it is beth");
+                string name = DialogueLine.Characters.beth.ToString();
+                dialogueTextVar.text = $"<b> {name}: </b>  {_dialogueLine}";
+                Debug.Log(dialogueTextVar.text = $"<b> {name}: </b>  {_dialogueLine}");
+                dialogueTextVar.color = Color.red;
+                break;
+            case DialogueLine.Characters.tori:
+                string tori = DialogueLine.Characters.tori.ToString();
+                dialogueTextVar.text = $"<b> {tori}: </b>  {_dialogueLine}";
+                Debug.Log(dialogueTextVar.text = $"<b> {tori}: </b>  {_dialogueLine}");
+                dialogueTextVar.color = Color.blue;
+                break;
+            case DialogueLine.Characters.me:
+                string me = DialogueLine.Characters.me.ToString();
+                dialogueTextVar.text = _dialogueLine;
+                Debug.Log(dialogueTextVar.text = $"<b> {me}: </b>  {_dialogueLine}");
+                dialogueTextVar.color = Color.yellow;
+                break;
+            case DialogueLine.Characters.you:
+                break;
+            default: 
+                break;
+            
         }
     }
 

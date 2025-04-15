@@ -18,6 +18,7 @@ MonoBehaviour:
   - start of line 3
   - 3
   - end of line 3
+  characters: 1
   nextLine: {fileID: 11400000, guid: 59493e9e55df3894fa56e50f1f32b1a7, type: 2}
   choices: []
   isPlayer: 0

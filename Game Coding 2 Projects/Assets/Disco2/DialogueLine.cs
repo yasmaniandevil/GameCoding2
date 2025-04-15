@@ -13,7 +13,8 @@ using UnityEngine;
         //list of text to show
         [TextArea]public List<string> dialogueLinesList = new List<string>();
 
-        public enum Characters { tori, beth, you, me };
+        public enum Characters { blank, tori, beth, you, me };
+        public Characters characters;
 
         //next line if there are no choices
         public DialogueLine nextLine;

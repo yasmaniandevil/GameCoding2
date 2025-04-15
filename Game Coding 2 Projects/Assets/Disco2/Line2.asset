@@ -16,10 +16,11 @@ MonoBehaviour:
   speakerName: Bob
   dialogueLinesList:
   - line 2
+  characters: 2
   nextLine: {fileID: 0}
   choices:
   - choiceText: Lets see homes
-    nextLine: {fileID: 11400000, guid: 7f5bff98814337443aababa3c69ccfca, type: 2}
+    nextLine: {fileID: 11400000, guid: 384106f5f246948c6868cb516043de9a, type: 2}
     requiredStat: 
     requiredValue: 0
     rewardStat: 
@@ -27,11 +28,11 @@ MonoBehaviour:
     requiredFlag: Homie
     rewardFlag: 
   - choiceText: i got nada mama
-    nextLine: {fileID: 11400000, guid: 384106f5f246948c6868cb516043de9a, type: 2}
+    nextLine: {fileID: 11400000, guid: 59493e9e55df3894fa56e50f1f32b1a7, type: 2}
     requiredStat: 
     requiredValue: 0
     rewardStat: 
     rewardAmt: 0
-    requiredFlag: 
+    requiredFlag: Loser
     rewardFlag: 
   isPlayer: 0

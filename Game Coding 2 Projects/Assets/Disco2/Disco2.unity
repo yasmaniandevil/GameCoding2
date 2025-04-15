@@ -843,7 +843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e009eac228714eea83d82b925fc048a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingLine: {fileID: 11400000, guid: 09de9b0ff1dc2416cb78ed9dcc9d0a48, type: 2}
+  currentLine: {fileID: 11400000, guid: 09de9b0ff1dc2416cb78ed9dcc9d0a48, type: 2}
   chatContent: {fileID: 2023838901}
   textLinePrefab: {fileID: 7423947647374815080, guid: ac8ee5d26c6e14120943b248cef4bafe, type: 3}
   choiceButtonPrefab: {fileID: 6613051963278469566, guid: 38942ec9d95f84650961808b06d741f6, type: 3}
