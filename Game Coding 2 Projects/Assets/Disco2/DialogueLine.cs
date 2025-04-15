@@ -9,7 +9,7 @@ using UnityEngine;
         [Header("Editor Only")]
         public Vector2 editorPosition;
 
-        public string speakerName;
+        
         //list of text to show
         [TextArea]public List<string> dialogueLinesList = new List<string>();
 

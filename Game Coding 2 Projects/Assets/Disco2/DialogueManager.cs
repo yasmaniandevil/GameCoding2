@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     //reference to our scriptable obj
     public DialogueLine currentLine;
 
+    [Header("UI")]
     //content of scroll view
     public Transform chatContent; //where messages will be placed
     //template for single chat message
@@ -22,14 +23,17 @@ public class DialogueManager : MonoBehaviour
     public Transform choiceContainer;
     //a button that appears when they are no choices and you can continue to next line
     public Button continueButton;
-
     private TextMeshProUGUI dialogueTextVar;
+
 
     //later
     bool dialogueRunning = false;
     public bool endConversation;
     public UnityEvent onEndConversation;
-   
+
+    [Header("Dialogue History")]
+    public List<string> dialogueHistory = new List<string>();
+
     //calls when interaction begins (trigger or key)
     public void StartingDialogue()
     {
@@ -40,24 +44,15 @@ public class DialogueManager : MonoBehaviour
         //FIRST
         //starts dialogue flow by calling update dialogue and passing in the first line
         UpdateDialogue(currentLine);
-
-        
     }
 
     public void UpdateDialogue(DialogueLine line)
     {
-
-        //{{{!!!@!!!FIRST THIS
         //sets current line to the passed in line
         currentLine = line;
         Debug.Log("Current Line" + currentLine);
         //ShowLine(currentLine);
         StartCoroutine(DisplayDialogue(currentLine));
-        
-
-
-        //enables continue button when dialogue begins
-        
     }
 
 
@@ -71,31 +66,20 @@ public class DialogueManager : MonoBehaviour
             //TextMeshProUGUI dialogueTextVar = GetComponentInChildren<TextMeshProUGUI>();
             dialogueTextVar = dialogueText.GetComponent<TextMeshProUGUI>();
 
-            //character dialogue option
-            /*if (line.characters != DialogueLine.Characters.blank)
-            {
-                SwitchCharacters(currentLine, dialogueLineString);
-            }*/
-
-            SwitchCharacters(currentLine, dialogueLineString);
+            string finalLine = SwitchCharacters(currentLine, dialogueLineString);
+            dialogueHistory.Add(finalLine);
 
             //set the text of it to whatever string we are currently looping over
             //dialogueTextVar.text = dialogueLineString;
 
             //later in lesson
-            if (!string.IsNullOrEmpty(line.speakerName))
+            /*if (!string.IsNullOrEmpty(line.speakerName))
             {
 
                 //dialogueTextVar.text = $"<b>{line.speakerName}:</b> {dialogueLine}";
-            }
-
-            
+            }*/
 
             yield return new WaitForSeconds(1f);
-
-            
-            
-
         }
 
         //ensure continue button is below all chat
@@ -119,6 +103,7 @@ public class DialogueManager : MonoBehaviour
         
     }
 
+    #region continue button
     public void ContinueButton(DialogueLine line)
     {
         if(line.nextLine != null)
@@ -143,9 +128,13 @@ public class DialogueManager : MonoBehaviour
             });
         }
     }
+    #endregion continue button
 
-    public void SwitchCharacters(DialogueLine line, string _dialogueLine)
+    #region switch speakers
+    public string SwitchCharacters(DialogueLine line, string _dialogueLine)
     {
+        string formattedLine = _dialogueLine;
+
         switch (line.characters)
         {
             case DialogueLine.Characters.blank:
@@ -155,30 +144,40 @@ public class DialogueManager : MonoBehaviour
             case DialogueLine.Characters.beth:
                 Debug.Log("it is beth");
                 string name = DialogueLine.Characters.beth.ToString();
-                dialogueTextVar.text = $"<b> {name}: </b>  {_dialogueLine}";
-                Debug.Log(dialogueTextVar.text = $"<b> {name}: </b>  {_dialogueLine}");
+                formattedLine = $"<b> Beth: </b> {_dialogueLine}";
+                //dialogueTextVar.text = $"<b> {name}: </b>  {formattedLine}";
+                Debug.Log("formatted line: " + formattedLine);
+                //Debug.Log(dialogueTextVar.text = $"<b> {name}: </b>  {_dialogueLine}");
                 dialogueTextVar.color = Color.red;
                 break;
             case DialogueLine.Characters.tori:
                 string tori = DialogueLine.Characters.tori.ToString();
-                dialogueTextVar.text = $"<b> {tori}: </b>  {_dialogueLine}";
-                Debug.Log(dialogueTextVar.text = $"<b> {tori}: </b>  {_dialogueLine}");
+                dialogueTextVar.text = $"<b> {tori}: </b>  {formattedLine}";
+                Debug.Log("formatted line: " + formattedLine);
+                //Debug.Log(dialogueTextVar.text = $"<b> {tori}: </b>  {formattedLine}");
                 dialogueTextVar.color = Color.blue;
                 break;
             case DialogueLine.Characters.me:
                 string me = DialogueLine.Characters.me.ToString();
-                dialogueTextVar.text = _dialogueLine;
-                Debug.Log(dialogueTextVar.text = $"<b> {me}: </b>  {_dialogueLine}");
+                dialogueTextVar.text = $"<b> {me}: </b>  {formattedLine}";
+                Debug.Log("formatted line: " + formattedLine);
+                //Debug.Log(dialogueTextVar.text = $"<b> {me}: </b>  {formattedLine}");
                 dialogueTextVar.color = Color.yellow;
                 break;
             case DialogueLine.Characters.you:
                 break;
-            default: 
+            default:
+                dialogueTextVar.text = _dialogueLine;
                 break;
             
         }
-    }
 
+        return formattedLine;
+        
+    }
+    #endregion switch speakers
+
+    #region run choices
     public void RunChoices(DialogueLine line)
     {
         if (line.choices != null && line.choices.Length > 0)
@@ -258,6 +257,8 @@ public class DialogueManager : MonoBehaviour
                         PlayerStats.Instance.AddChoiceFlag(choice.rewardFlag);
                         Debug.Log("unlocked new path " + choice.rewardFlag);
                     }
+
+                    dialogueHistory.Add($"Choice: {choice.choiceText}");
                 });
                 //it is interactable depending on if meets requirment is true or false
                 buttonComp.interactable = meetsRequirment;
@@ -278,36 +279,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
     }
+    #endregion run choices
 
-    
 
-    //helper function returns an int
-    //takes name of stat (logic etc) and returns the players current value for that stat
-    //we make a function so dialogue logic doesnt need to directly access player states it just calls this method
-    /*int GetPlayerStatValue(string statName)
-    {
-        switch(statName)
-        {
-            case "charisma": return PlayerStats.Instance.charisma;
-            case "logic": return PlayerStats.Instance.logic;
-            case "empathy": return PlayerStats.Instance.empathy;
-            default: return 0;
-
-        }
-    }*/
-
-    /*void ExampleFunction()
-    {
-        if(PlayerStats.Instance.GetStat("Logic") >= 2)
-        {
-            Debug.Log("Do something");
-        }
-
-        if (PlayerStats.Instance.stats.ContainsKey("Empathy"))
-        {
-            
-        }
-    }*/
-
-    
 }
